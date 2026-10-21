@@ -38,7 +38,7 @@ select{font:inherit;width:100%;padding:10px;margin:4px 0 10px;border-radius:10px
 .big{font-size:44px;text-align:center}.cf{position:fixed;top:-30px;font-size:22px;pointer-events:none;animation:fall 2s linear forwards;z-index:9}@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:.6}}.c{text-align:center}
 </style></head><body><div id="app"></div>
 <script>
-const SUBS={math:["🧮","Math"],geo:["🌍","Geography"],sci:["🔬","Science"],word:["📚","Words"],hist:["🏛️","History"],tech:["💻","Technology"]};
+const SUBS={math:["🧮","Math"],geo:["🌍","Geography"],sci:["🔬","Science"],word:["📚","Words"],hist:["🏛️","History"],tech:["💻","Technology"],soc:["⚽","Soccer"],bib:["✝️","Bible"],gk:["🎯","General Quiz"]};
 const LV=["Easy","Medium","Hard"],PER=5,QN=5;
 const BANK=`geo|1|Capital of France?|Paris|London|Rome|Berlin|Paris sits on the River Seine.
 geo|1|Largest ocean?|Pacific|Atlantic|Indian|Arctic|The Pacific covers about a third of Earth.
@@ -186,7 +186,61 @@ tech|2|What is a software 'bug'?|An error in code|A virus|A fast computer|A cabl
 tech|2|Which stores files permanently?|SSD|RAM|CPU|Monitor|RAM forgets everything when power goes off.
 tech|3|What does URL stand for?|Uniform Resource Locator|Universal Remote Link|Unified Route Layer|User Response Line|A URL is a web address.
 tech|3|Which is a programming language?|Python|HTTP|Linux|Chrome|Python is popular for beginners and AI.
-tech|3|What does RAM stand for?|Random Access Memory|Read Any Memory|Rapid Active Module|Remote Access Machine|RAM is a computer's short-term memory.`.split("\n").map(l=>l.split("|"));
+tech|3|What does RAM stand for?|Random Access Memory|Read Any Memory|Rapid Active Module|Remote Access Machine|RAM is a computer's short-term memory.
+soc|1|How many players does one team field on the pitch?|11|9|10|12|Each team has 11 players including the goalkeeper.
+soc|1|Which player may use their hands inside the box?|Goalkeeper|Striker|Defender|Midfielder|Goalkeepers can handle the ball in their own penalty area.
+soc|1|How long is a standard football match?|90 minutes|60 minutes|80 minutes|120 minutes|Two halves of 45 minutes plus stoppage time.
+soc|1|Which card sends a player off the pitch?|Red card|Yellow card|Green card|Blue card|Two yellow cards also equal a red.
+soc|1|Which country has won the most men's World Cups?|Brazil|Germany|Italy|France|Brazil has won it 5 times.
+soc|1|Three goals by one player in a match is called?|Hat-trick|Double|Brace|Triple play|The name comes from old cricket tradition.
+soc|2|Which country hosted the 2022 World Cup?|Qatar|Russia|Brazil|Germany|It was the first World Cup in the Middle East.
+soc|2|Who captained Argentina to the 2022 World Cup title?|Lionel Messi|Sergio Aguero|Angel Di Maria|Diego Maradona|Messi finally lifted the trophy in Qatar.
+soc|2|Which club is nicknamed the Red Devils?|Manchester United|Liverpool|Arsenal|Bayern Munich|They play at Old Trafford.
+soc|2|Which African team reached the 2022 World Cup semi-finals?|Morocco|Senegal|Ghana|Cameroon|Morocco was the first African team to get that far.
+soc|2|The offside rule is about what?|Where attackers stand when the pass is played|Handling the ball|Wasting time|Dangerous tackles|An attacker cannot be ahead of the last defenders.
+soc|2|How many teams play in the Premier League?|20|18|22|24|Each team plays 38 matches.
+soc|3|Who scored the 'Hand of God' goal in 1986?|Diego Maradona|Pele|Zinedine Zidane|Johan Cruyff|It came against England.
+soc|3|Who won the first World Cup in 1930?|Uruguay|Brazil|Argentina|Italy|Uruguay was also the host.
+soc|3|Which club has won the most Champions League titles?|Real Madrid|AC Milan|Liverpool|Bayern Munich|Real Madrid leads the record by a distance.
+soc|3|Who won Euro 2024?|Spain|England|France|Germany|Spain beat England in the final.
+soc|3|How wide is a football goal?|7.32 m|5 m|9 m|6.5 m|It is 7.32 m wide and 2.44 m high.
+soc|3|Who won the 2010 World Cup?|Spain|Netherlands|Germany|Brazil|It was Spain's first World Cup, held in South Africa.
+bib|1|Who built the ark?|Noah|Moses|Abraham|David|Noah built it before the great flood.
+bib|1|Who was swallowed by a great fish?|Jonah|Peter|Daniel|Paul|Jonah spent three days inside.
+bib|1|On which day did God rest in Genesis?|Seventh|Sixth|First|Third|Genesis 2:2 says God rested on the seventh day.
+bib|1|Who defeated Goliath?|David|Saul|Samuel|Joshua|David used a sling and a stone.
+bib|1|Who was the mother of Jesus?|Mary|Martha|Elizabeth|Ruth|The angel Gabriel appeared to her.
+bib|1|In which town was Jesus born?|Bethlehem|Nazareth|Jerusalem|Jericho|Luke 2 tells the story.
+bib|2|Who led Israel out of Egypt?|Moses|Joshua|Aaron|Elijah|The Red Sea parted for them.
+bib|2|How many disciples did Jesus choose?|12|10|7|70|Matthew 10 lists the twelve.
+bib|2|Who was thrown into the lions' den?|Daniel|Joseph|Elijah|Samson|God shut the lions' mouths.
+bib|2|What was the first miracle of Jesus?|Water into wine|Feeding 5,000|Walking on water|Healing a blind man|It happened at a wedding in Cana.
+bib|2|Who denied Jesus three times?|Peter|Judas|Thomas|John|Peter wept bitterly afterwards.
+bib|2|Whose strength was linked to his long hair?|Samson|Goliath|Gideon|Saul|His story is in Judges 13 to 16.
+bib|3|What is the first book of the Bible?|Genesis|Exodus|Psalms|Matthew|Genesis means 'beginning'.
+bib|3|Who wrote most of the New Testament letters?|Paul|Peter|John|James|Paul wrote about 13 of them.
+bib|3|Which is the shortest verse in many English Bibles (John 11:35)?|Jesus wept|God is love|Pray always|Rejoice always|It shows Jesus' compassion.
+bib|3|Which book comes right after Psalms?|Proverbs|Job|Isaiah|Ecclesiastes|Proverbs is a book of wisdom.
+bib|3|Which king was known for great wisdom?|Solomon|David|Saul|Hezekiah|He asked God for wisdom.
+bib|3|How many books are in the Protestant Bible?|66|72|39|27|There are 39 Old Testament and 27 New Testament books.
+gk|1|How many days are in a week?|7|5|6|8|Monday to Sunday.
+gk|1|Which animal is called the king of the jungle?|Lion|Tiger|Elephant|Bear|Lions actually live in grasslands.
+gk|1|Blue and yellow mixed make which color?|Green|Purple|Orange|Brown|Primary colors mix into new colors.
+gk|1|How many months are in a year?|12|10|11|13|Seven of them have 31 days.
+gk|1|Which fruit is yellow and curved?|Banana|Apple|Grape|Cherry|Bananas grow in bunches.
+gk|1|How many sides does a triangle have?|3|4|5|6|Its angles add up to 180 degrees.
+gk|2|Largest animal on Earth?|Blue whale|Elephant|Giraffe|Shark|It can reach about 30 m long.
+gk|2|How many continents are there?|7|5|6|8|Asia, Africa, North America, South America, Antarctica, Europe and Australia.
+gk|2|Which instrument has black and white keys?|Piano|Guitar|Drum|Flute|A piano has 88 keys.
+gk|2|What is the currency of Japan?|Yen|Won|Yuan|Dollar|The yen sign is ¥.
+gk|2|Who painted the Mona Lisa?|Leonardo da Vinci|Michelangelo|Picasso|Van Gogh|It hangs in the Louvre in Paris.
+gk|2|Fastest land animal?|Cheetah|Lion|Horse|Leopard|It can sprint about 100 km/h.
+gk|3|Smallest prime number?|2|1|3|0|2 is the only even prime.
+gk|3|Which element has the symbol Fe?|Iron|Fluorine|Lead|Tin|Fe comes from the Latin 'ferrum'.
+gk|3|Which language has the most native speakers?|Mandarin Chinese|English|Spanish|Hindi|Over 900 million people speak it natively.
+gk|3|Who developed the theory of relativity?|Albert Einstein|Isaac Newton|Galileo|Niels Bohr|E = mc² comes from his work.
+gk|3|How many strings does a standard guitar have?|6|4|5|8|Standard tuning is E-A-D-G-B-E.
+gk|3|Largest planet in our Solar System?|Jupiter|Saturn|Neptune|Earth|Jupiter could fit over 1,300 Earths inside.`.split("\n").map(l=>l.split("|"));
 const rnd=n=>Math.floor(Math.random()*n),shuf=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
 function mathQ(lv,st){const k=lv*10+st*2;let a,b,op,ans,t;
  if(lv==1){a=rnd(5+k)+2;b=rnd(5+k)+1;op=rnd(2)?"+":"−";if(op=="−"&&b>a)[a,b]=[b,a];ans=op=="+"?a+b:a-b;t=`${a} ${op} ${b}`}
