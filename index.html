@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>BrainQuest</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#6c47ff">
+<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f1ff;--card:#fff;--tx:#1d1b2e;--mu:#6b6784;--pr:#6c47ff;--ok:#1fa971;--no:#e0475b;--gold:#f5b301;--bd:#e3def7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15131f;--card:#211e30;--tx:#f1eefc;--mu:#a29db9;--pr:#8d70ff;--bd:#352f4d}}
+:root[data-theme="dark"]{--bg:#15131f;--card:#211e30;--tx:#f1eefc;--mu:#a29db9;--pr:#8d70ff;--bd:#352f4d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+#app{max-width:520px;margin:0 auto;padding:16px}
+h1{margin:0;font-size:24px}h2{margin:16px 0 8px;font-size:17px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.coin{background:var(--card);border:1px solid var(--bd);padding:6px 12px;border-radius:20px;font-weight:700;color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sub{cursor:pointer;text-align:center;padding:16px 8px;border-radius:16px;background:var(--card);border:1px solid var(--bd);font-weight:600}
+.sub .e{font-size:34px;display:block}.sub small{color:var(--mu);font-weight:400}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:12px 14px;background:var(--pr);color:#fff;font-weight:600}
+button.ghost{background:var(--card);color:var(--tx);border:1px solid var(--bd)}
+button:disabled{opacity:.45}
+input{font:inherit;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);width:100%}
+.tabs{display:flex;gap:8px;margin:10px 0}.tabs button{flex:1}
+.stages{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0}
+.st{width:60px;height:60px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--card);border:2px solid var(--pr);font-weight:700;cursor:pointer}
+.st.lock{border-color:var(--bd);color:var(--mu);cursor:not-allowed}.st.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pr)}
+.q{font-size:20px;font-weight:700;margin:16px 0}
+.opt{display:block;width:100%;text-align:left;margin-bottom:8px;background:var(--card);color:var(--tx);border:2px solid var(--bd)}
+.opt.ok{border-color:var(--ok);background:var(--ok);color:#fff}.opt.no{border-color:var(--no);background:var(--no);color:#fff}
+.fact{background:var(--card);border-left:4px solid var(--pr);padding:10px;border-radius:8px;margin:10px 0;color:var(--mu)}
+.lb div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd)}
+select{font:inherit;width:100%;padding:10px;margin:4px 0 10px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}.big{font-size:44px;text-align:center}.cf{position:fixed;top:-30px;font-size:22px;pointer-events:none;animation:fall 2s linear forwards;z-index:9}@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:.6}}.c{text-align:center}
+</style></head><body><div id="app"></div>
+<script>
+const SUBS={math:["🧮","Math"],geo:["🌍","Geography"],sci:["🔬","Science"],word:["📚","Words"],hist:["🏛️","History"],tech:["💻","Technology"]};
+const LV=["Easy","Medium","Hard"],PER=5,QN=5;
+const BANK=`geo|1|Capital of France?|Paris|London|Rome|Berlin|Paris sits on the River Seine.
+geo|1|Largest ocean?|Pacific|Atlantic|Indian|Arctic|The Pacific covers about a third of Earth.
+geo|1|Egypt is in which continent?|Africa|Asia|Europe|Australia|Egypt spans Africa and touches Asia at Sinai.
+geo|1|Longest river in Africa?|Nile|Congo|Niger|Zambezi|The Nile flows north into the Mediterranean.
+geo|1|Which country has kangaroos?|Australia|Brazil|India|Kenya|Kangaroos are native to Australia.
+geo|2|Capital of Canada?|Ottawa|Toronto|Vancouver|Montreal|Ottawa was chosen in 1857.
+geo|2|Highest mountain above sea level?|Everest|K2|Kilimanjaro|Denali|Everest is about 8,849 m tall.
+geo|2|Capital of Brazil?|Brasília|Rio|São Paulo|Salvador|Brasília was built in the 1950s.
+geo|2|Largest country by area?|Russia|Canada|China|USA|Russia spans 11 time zones.
+geo|2|Capital of Nigeria?|Abuja|Lagos|Kano|Ibadan|Abuja replaced Lagos in 1991.
+geo|3|Capital of Kazakhstan?|Astana|Almaty|Tashkent|Bishkek|Astana is a planned modern capital.
+geo|3|Smallest country in the world?|Vatican City|Monaco|Malta|Nauru|Vatican City is about 0.44 km².
+geo|3|Which river flows through Baghdad?|Tigris|Euphrates|Jordan|Nile|The Tigris is in ancient Mesopotamia.
+geo|3|Which is NOT on Lake Victoria?|Ghana|Kenya|Uganda|Tanzania|Lake Victoria is shared by three countries.
+geo|3|Deepest ocean trench?|Mariana|Tonga|Java|Puerto Rico|Mariana Trench is nearly 11 km deep.
+sci|1|Water boils at what °C (sea level)?|100|50|150|200|Boiling point drops at high altitude.
+sci|1|Planet closest to the Sun?|Mercury|Venus|Mars|Earth|Mercury has a year of just 88 days.
+sci|1|Which gas do we breathe in?|Oxygen|Helium|Nitrogen|Neon|Air is only ~21% oxygen.
+sci|1|How plants make food?|Photosynthesis|Digestion|Respiration|Evaporation|Plants turn light, CO₂ and water into sugar.
+sci|1|Which organ pumps blood?|Heart|Lungs|Liver|Kidney|The heart beats ~100,000 times a day.
+sci|2|Chemical symbol for gold?|Au|Ag|Go|Gd|Au comes from Latin 'aurum'.
+sci|2|Powerhouse of the cell?|Mitochondria|Nucleus|Ribosome|Golgi|Mitochondria make ATP energy.
+sci|2|Force that pulls objects to Earth?|Gravity|Friction|Magnetism|Inertia|Gravity gives us weight.
+sci|2|Hardest natural substance?|Diamond|Gold|Quartz|Iron|Diamond is pure carbon.
+sci|2|Bones in an adult human?|206|106|306|156|Babies have about 300 that fuse.
+sci|3|Speed of light (km/s)?|300,000|30,000|3,000|3,000,000|Light takes ~8 minutes to reach us from the Sun.
+sci|3|Atomic number of carbon?|6|12|8|4|Atomic number = number of protons.
+sci|3|pH of pure water?|7|1|14|0|Below 7 is acidic, above is basic.
+sci|3|Most abundant gas in air?|Nitrogen|Oxygen|Argon|CO₂|Nitrogen is ~78% of air.
+sci|3|Which particle has negative charge?|Electron|Proton|Neutron|Photon|Electrons orbit the nucleus.
+word|1|Opposite of 'hot'?|Cold|Warm|Wet|Dry|Antonyms are words of opposite meaning.
+word|1|Plural of 'child'?|Children|Childs|Childes|Childrens|Some plurals are irregular.
+word|1|Synonym of 'big'?|Large|Tiny|Thin|Soft|Synonyms share a meaning.
+word|1|Which is a noun?|Dog|Run|Quickly|Blue|Nouns name people, places, things.
+word|1|Past tense of 'go'?|Went|Goed|Gone|Going|'Went' is irregular.
+word|2|Antonym of 'ancient'?|Modern|Old|Historic|Aged|Ancient means very old.
+word|2|Correct spelling?|Necessary|Neccessary|Necesary|Neccesary|One collar, two sleeves: 1 C, 2 S.
+word|2|An adverb describes a…?|Verb|Noun|Pronoun|Article|Many adverbs end in -ly.
+word|2|'Benevolent' means?|Kind|Angry|Lazy|Clever|Bene- means 'good' in Latin.
+word|2|Plural of 'mouse' (animal)?|Mice|Mouses|Mices|Meese|Mouse and mice are irregular.
+word|3|'Ephemeral' means?|Short-lived|Eternal|Heavy|Hidden|Ephemeral comes from Greek 'for a day'.
+word|3|'Ubiquitous' means?|Found everywhere|Very rare|Ancient|Dangerous|Ubique = 'everywhere' in Latin.
+word|3|Antonym of 'verbose'?|Concise|Wordy|Loud|Vague|Verbose means using too many words.
+word|3|'Meticulous' means?|Very careful|Careless|Quick|Quiet|It implies great attention to detail.
+word|3|Correct spelling?|Accommodate|Acommodate|Accomodate|Acomodate|Double C, double M.
+geo|1|Which continent is the largest?|Asia|Africa|Europe|Antarctica|Asia holds about 60% of all people.
+geo|1|Capital of Japan?|Tokyo|Kyoto|Osaka|Seoul|Tokyo is one of the biggest cities on Earth.
+geo|1|Largest hot desert?|Sahara|Gobi|Kalahari|Namib|The Sahara is about the size of the USA.
+geo|2|Capital of Australia?|Canberra|Sydney|Melbourne|Perth|Canberra was a compromise between rival cities.
+geo|2|Which country has the most people?|India|China|USA|Indonesia|India passed China in 2023.
+geo|2|Which river flows through London?|Thames|Seine|Rhine|Danube|The Thames is about 346 km long.
+geo|3|Capital of Ethiopia?|Addis Ababa|Nairobi|Khartoum|Asmara|Addis Ababa means 'new flower'.
+geo|3|Which strait separates Europe and Africa?|Gibraltar|Bering|Hormuz|Malacca|It is only about 14 km wide.
+geo|3|Which is a landlocked country?|Ethiopia|Ghana|Kenya|Nigeria|Ethiopia lost its coastline in 1993.
+sci|1|Which animal is a mammal?|Whale|Shark|Trout|Octopus|Whales breathe air and nurse their young.
+sci|1|What is frozen water called?|Ice|Steam|Vapor|Dew|Water freezes at 0°C.
+sci|1|Which planet is the Red Planet?|Mars|Venus|Jupiter|Saturn|Iron oxide (rust) colors Mars red.
+sci|2|Which gas do plants absorb?|Carbon dioxide|Oxygen|Hydrogen|Helium|Plants release oxygen in return.
+sci|2|Chemical formula of water?|H₂O|CO₂|NaCl|O₂|Two hydrogen atoms and one oxygen atom.
+sci|2|Which vitamin comes from sunlight?|D|C|A|B12|Your skin makes vitamin D in sunlight.
+sci|3|Largest organ of the human body?|Skin|Liver|Brain|Lung|Skin covers about 2 m².
+sci|3|Which blood cells fight infection?|White blood cells|Red blood cells|Platelets|Plasma|They are a key part of the immune system.
+sci|3|SI unit of force?|Newton|Joule|Watt|Pascal|1 newton accelerates 1 kg by 1 m/s².
+word|1|Which word is a verb?|Jump|Table|Happy|Soft|Verbs show action.
+word|1|Plural of 'cat'?|Cats|Cates|Catz|Cat's|Most plurals just add -s.
+word|1|Opposite of 'up'?|Down|Over|Left|Side|Opposites are called antonyms.
+word|2|Synonym of 'happy'?|Joyful|Sad|Angry|Tired|Synonyms make writing more lively.
+word|2|Which is a conjunction?|Because|Quickly|Table|Under|Conjunctions join ideas together.
+word|2|Correct spelling?|Separate|Seperate|Separete|Seprate|Remember: there's 'a rat' in sepARATe.
+word|3|'Gregarious' means?|Sociable|Shy|Greedy|Angry|It describes people who love company.
+word|3|'Pragmatic' means?|Practical|Dreamy|Lazy|Rude|Pragmatic people focus on what works.
+word|3|Antonym of 'benevolent'?|Malevolent|Generous|Kind|Gentle|Mal- means 'bad' in Latin.
+hist|1|First President of the USA?|George Washington|Abraham Lincoln|John Adams|Thomas Jefferson|He served from 1789 to 1797.
+hist|1|Who built the pyramids of Giza?|Ancient Egyptians|Romans|Greeks|Aztecs|The Great Pyramid is over 4,500 years old.
+hist|1|In which year did World War II end?|1945|1918|1939|1950|It ended in 1945.
+hist|1|Which country gave the Statue of Liberty to the USA?|France|England|Spain|Italy|It was a gift in 1886.
+hist|1|Which empire was ruled from Rome?|Roman Empire|Ottoman Empire|Mongol Empire|Persian Empire|At its peak it surrounded the Mediterranean Sea.
+hist|2|First President of Nigeria?|Nnamdi Azikiwe|Olusegun Obasanjo|Tafawa Balewa|Yakubu Gowon|He served from 1963 to 1966.
+hist|2|Nigeria gained independence in?|1960|1957|1963|1975|Independence Day is celebrated on October 1.
+hist|2|Who sailed to the Americas in 1492?|Christopher Columbus|Vasco da Gama|Marco Polo|James Cook|His voyage was funded by Spain.
+hist|2|The Berlin Wall fell in?|1989|1961|1975|1991|Germany reunified in 1990.
+hist|2|Ghana became independent in?|1957|1960|1947|1963|Ghana led the way for colonial Africa's independence.
+hist|3|First emperor of Rome?|Augustus|Julius Caesar|Nero|Constantine|Augustus began ruling in 27 BC.
+hist|3|The French Revolution began in?|1789|1776|1815|1848|The Bastille was stormed on 14 July 1789.
+hist|3|Who led India's non-violent independence movement?|Mahatma Gandhi|Nehru|Subhas Bose|Jinnah|India became independent in 1947.
+hist|3|The Industrial Revolution began in which country?|Britain|France|Germany|USA|It began in the 18th century.
+hist|3|Which treaty ended World War I in 1919?|Treaty of Versailles|Treaty of Paris|Treaty of Rome|Treaty of Tordesillas|It was signed in the Hall of Mirrors.
+tech|1|What does 'WWW' stand for?|World Wide Web|World Web Wire|Wide World Web|Web World Wide|Tim Berners-Lee invented the Web in 1989.
+tech|1|Which device is used to type?|Keyboard|Monitor|Speaker|Printer|A keyboard is an input device.
+tech|1|What does a mouse control on screen?|Cursor|Volume|Battery|Memory|The cursor is the arrow you see.
+tech|1|Which is an output device?|Monitor|Keyboard|Mouse|Scanner|Output devices show you results.
+tech|1|Which program lets you browse the web?|Browser|Compiler|Router|Server|Chrome and Safari are browsers.
+tech|2|What does CPU stand for?|Central Processing Unit|Computer Power Unit|Central Program Utility|Core Processing Unit|It is the brain of a computer.
+tech|2|Which language adds interactivity to web pages?|JavaScript|Python|Swift|Rust|Nearly every website uses JavaScript.
+tech|2|What does HTML stand for?|HyperText Markup Language|High Tech Modern Language|HyperTransfer Markup Link|Home Tool Markup Language|HTML gives web pages their structure.
+tech|2|How many bits are in a byte?|8|4|16|10|A byte can hold 256 different values.
+tech|2|Which operating system is made by Google?|Android|iOS|Windows|Linux|Android runs on billions of phones.
+tech|3|How many bytes are in 1 KB (binary)?|1024|1000|512|100|Computers count in powers of 2.
+tech|3|Which protocol secures websites (the padlock)?|HTTPS|FTP|SMTP|HTTP|The S stands for Secure.
+tech|3|What does AI stand for?|Artificial Intelligence|Automated Internet|Applied Input|Advanced Interface|AI systems learn patterns from data.
+tech|3|Binary 101 equals what number?|5|3|6|10|1×4 + 0×2 + 1×1 = 5.
+tech|3|What is 'phishing'?|Tricking people to steal info|Fixing a bug|Speeding up the internet|Backing up files|Never click suspicious links.
+geo|1|Which ocean lies between Africa and Australia?|Indian|Atlantic|Pacific|Arctic|It is named after India.
+geo|1|Coldest continent?|Antarctica|Asia|Europe|Africa|Antarctica holds most of Earth's ice.
+geo|1|Capital of Ghana?|Accra|Kumasi|Lagos|Tema|Accra sits on the Gulf of Guinea.
+geo|2|Capital of Kenya?|Nairobi|Mombasa|Kampala|Dodoma|Nairobi means 'cool water' in Maasai.
+geo|2|Longest river in South America?|Amazon|Orinoco|Parana|Magdalena|The Amazon carries more water than any river.
+geo|2|Capital of Egypt?|Cairo|Alexandria|Luxor|Giza|Cairo lies on the Nile.
+geo|3|Capital of Turkey?|Ankara|Istanbul|Izmir|Antalya|Ankara became capital in 1923.
+geo|3|Most populous African country?|Nigeria|Egypt|Ethiopia|South Africa|Nigeria has over 200 million people.
+geo|3|Which very salty sea lies between Israel and Jordan?|Dead Sea|Red Sea|Black Sea|Caspian Sea|You float easily in it.
+sci|1|How many legs does an insect have?|6|8|4|10|Spiders have 8 legs and are not insects.
+sci|1|Which star gives Earth light and heat?|The Sun|The Moon|Mars|Polaris|The Sun is a medium-sized star.
+sci|1|Animals that eat only plants are called?|Herbivores|Carnivores|Omnivores|Predators|Cows and goats are herbivores.
+sci|2|Which planet is famous for its rings?|Saturn|Mars|Mercury|Earth|Saturn's rings are mostly ice.
+sci|2|Which force slows rubbing surfaces?|Friction|Gravity|Magnetism|Buoyancy|Rough surfaces create more friction.
+sci|2|Which organ helps us breathe?|Lungs|Stomach|Liver|Bladder|Lungs swap carbon dioxide for oxygen.
+sci|3|Chemical symbol for sodium?|Na|So|Sd|S|Na comes from the Latin 'natrium'.
+sci|3|Which layer of Earth is liquid metal?|Outer core|Crust|Mantle|Inner core|Its movement creates Earth's magnetic field.
+sci|3|What does DNA carry?|Genetic instructions|Blood|Energy|Oxygen|DNA is shaped like a double helix.
+word|1|Which is an adjective?|Beautiful|Run|Slowly|Table|Adjectives describe nouns.
+word|1|Fill in: 'I ___ a student.'|am|is|are|be|Use 'am' with 'I'.
+word|1|Opposite of 'night'?|Day|Moon|Dark|Sleep|Antonyms build vocabulary.
+word|2|Plural of 'leaf'?|Leaves|Leafs|Leafes|Leavs|Many words ending in -f change to -ves.
+word|2|Which spelling is correct?|Beautiful|Beutiful|Beatiful|Beautifull|Think: beau-ti-ful.
+word|2|Synonym of 'brave'?|Courageous|Timid|Weak|Silent|Courage means facing fear.
+word|3|'Lucid' means?|Clear|Confusing|Dark|Heavy|Lucid thinking is clear thinking.
+word|3|Which spelling is correct?|Occurrence|Occurence|Ocurrence|Occurrance|Two Cs and two Rs.
+word|3|'Candid' means?|Honest|Sweet|Secret|Loud|A candid answer is frank and open.
+hist|1|Which people built Machu Picchu?|Inca|Maya|Aztecs|Romans|It is in the Andes of Peru.
+hist|1|What did the Wright brothers build in 1903?|Airplane|Telephone|Car|Radio|Their first flight lasted 12 seconds.
+hist|1|Which queen of Egypt met Julius Caesar?|Cleopatra|Nefertiti|Hatshepsut|Isis|She was Egypt's last ruling pharaoh.
+hist|2|Who patented the telephone in 1876?|Alexander Graham Bell|Thomas Edison|Nikola Tesla|Marconi|Bell's first words were to his assistant.
+hist|2|First Black president of South Africa?|Nelson Mandela|Thabo Mbeki|Jacob Zuma|Desmond Tutu|He took office in 1994.
+hist|2|Which ship sank in 1912 after hitting an iceberg?|Titanic|Lusitania|Bismarck|Mayflower|It sank on its very first voyage.
+hist|3|Who wrote 'Things Fall Apart'?|Chinua Achebe|Wole Soyinka|Chimamanda Adichie|Ben Okri|It was published in 1958.
+hist|3|Which empire did Mansa Musa rule?|Mali Empire|Songhai Empire|Ghana Empire|Benin Kingdom|He is among the richest people in history.
+hist|3|In which year did the Soviet Union collapse?|1991|1985|1989|1999|It split into 15 countries.
+tech|1|Which of these is a search engine?|Google|Excel|Photoshop|Zoom|Search engines help you find web pages.
+tech|1|Wi-Fi gives you what?|Wireless internet|Electricity|Free apps|More storage|Wi-Fi uses radio waves.
+tech|1|Which key deletes text to the left?|Backspace|Enter|Shift|Tab|The Delete key removes text to the right.
+tech|2|What does USB stand for?|Universal Serial Bus|United System Board|Universal Storage Box|Unified Signal Bus|USB connects devices to computers.
+tech|2|What is a software 'bug'?|An error in code|A virus|A fast computer|A cable|The word comes from a real moth found in a computer.
+tech|2|Which stores files permanently?|SSD|RAM|CPU|Monitor|RAM forgets everything when power goes off.
+tech|3|What does URL stand for?|Uniform Resource Locator|Universal Remote Link|Unified Route Layer|User Response Line|A URL is a web address.
+tech|3|Which is a programming language?|Python|HTTP|Linux|Chrome|Python is popular for beginners and AI.
+tech|3|What does RAM stand for?|Random Access Memory|Read Any Memory|Rapid Active Module|Remote Access Machine|RAM is a computer's short-term memory.`.split("\n").map(l=>l.split("|"));
+const rnd=n=>Math.floor(Math.random()*n),shuf=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+function mathQ(lv,st){const k=lv*10+st*2;let a,b,op,ans,t;
+ if(lv==1){a=rnd(5+k)+2;b=rnd(5+k)+1;op=rnd(2)?"+":"−";if(op=="−"&&b>a)[a,b]=[b,a];ans=op=="+"?a+b:a-b;t=`${a} ${op} ${b}`}
+ else if(lv==2){a=rnd(8+st)+2;b=rnd(8+st)+2;if(rnd(2)){op="×";ans=a*b}else{op="+";a*=rnd(9)+5;b*=rnd(9)+5;ans=a+b}t=`${a} ${op} ${b}`}
+ else{const m=rnd(3);if(m==0){a=rnd(10+st)+5;op="²";ans=a*a;t=`${a}²`}else if(m==1){a=(rnd(9)+2)*10;b=[10,20,25,50][rnd(4)];ans=a*b/100;t=`${b}% of ${a}`}else{a=rnd(12)+3;b=rnd(12)+3;const c=rnd(20)+5;ans=a*b+c;t=`${a} × ${b} + ${c}`}}
+ const w=new Set();while(w.size<3){const d=ans+(rnd(2)?1:-1)*(rnd(9)+1);if(d!=ans&&d>=0)w.add(d)}
+ return{q:`What is ${t}?`,c:String(ans),o:[String(ans),...[...w].map(String)],f:`${t} = ${ans}`}}
+function build(s,lv,st){if(s=="math")return Array.from({length:QN},()=>mathQ(lv,st));
+ const pool=BANK.filter(r=>r[0]==s&&+r[1]==lv),K=r=>r[2]+r[3];S.seen=S.seen||[];let fr=pool.filter(r=>!S.seen.includes(K(r)));if(fr.length<QN){S.seen=S.seen.filter(x=>!pool.some(r=>K(r)==x));fr=pool}
+ const pk=shuf(fr).slice(0,QN);pk.forEach(r=>S.seen.push(K(r)));return pk.map(r=>({q:r[2],c:r[3],o:r.slice(3,7),f:r[7]}))}
+// ---- state
+let S={name:"",coins:0,hints:0,p:{}};let uid=null,db=null,lb=[],V="home",G={};
+try{const c=localStorage.getItem("bq_cur")||"",x=localStorage.getItem(c?"bq:"+c:"bq");if(x)S=Object.assign(S,JSON.parse(x))}catch(e){}
+if(!S.name)S.name="Player 1";const sk=()=>S.name.replace(/[^\w-]/g,"_");
+const cleared=(s,l)=>(S.p[s+l]||0);
+const total=()=>Object.values(S.p).reduce((a,b)=>a+b,0);
+function unlocked(s,l){return l==1||cleared(s,l-1)>=PER}
+function save(){try{localStorage.setItem("bq:"+S.name,JSON.stringify(S));localStorage.setItem("bq_cur",S.name)}catch(e){}
+ if(db&&uid){try{db.doc("data/users/"+uid+"/save/"+sk()).set({s:JSON.stringify(S)}).catch(()=>{});
+ if(S.name)db.doc("lb/"+uid).set({name:S.name,coins:S.coins,stages:total()}).catch(()=>{})}catch(e){}}}
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=document.getElementById("app");
+function head(back){return`<div class="top">${back?`<button class="ghost" onclick="go('${back}')">←</button>`:`<h1>🧠 BrainQuest</h1>`}<span><button class="ghost" style="padding:6px 10px;margin-right:6px" onclick="S.mute=!S.mute;save();render()">${S.mute?"🔇":"🔊"}</button><span class="coin">🪙 ${S.coins}</span></span></div>`}
+function go(v,x){V=v;if(v!="quiz")clearInterval(T);if(x)G=Object.assign(G,x);render()}
+function render(){
+ if(V=="home"){
+  $.innerHTML=head()+`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>👤 ${esc(S.name)}</b><button class="ghost" style="padding:6px 10px" onclick="go('pl')">👥 Players / Reset</button></div>
+  <div style="color:var(--mu);margin-top:8px;font-size:14px">Stages cleared: ${total()} / ${Object.keys(SUBS).length*3*PER} · Hints: ${S.hints}</div></div>
+  ${G.dbonus?`<div class="card c">🔥 Day ${S.streak} streak! Daily bonus +${G.dbonus} 🪙<br><small style="color:var(--mu)">Come back tomorrow for a bigger bonus (up to 70 🪙)</small></div>`:""}<div class="grid" style="margin:10px 0"><button onclick="go('life')">🏡 My Life</button><button onclick="go('dset')">⚔️ 2-Player Duel</button>${location.protocol=="file:"?"":'<button class="ghost" onclick="share()">📤 Share game</button>'}</div>${G.sh?`<div class="card c"><small>Copy this link to share:</small><input readonly value="${esc(location.href)}" onclick="this.select()"></div>`:""}<h2>Pick a subject</h2><div class="grid">${Object.entries(SUBS).map(([k,[e,n]])=>`<div class="sub" onclick="go('sub',{s:'${k}',l:1})"><span class="e">${e}</span>${n}<br><small>${[1,2,3].reduce((a,l)=>a+cleared(k,l),0)}/${3*PER} stages</small></div>`).join("")}</div>
+  <h2>🏅 Badges</h2><div class="card c" style="font-size:30px">${BG.map(b=>`<span title="${b[2]}" style="${(S.b||[]).includes(b[0])?"":"filter:grayscale(1);opacity:.3"}">${b[1]}</span> `).join("")}<div style="font-size:13px;color:var(--mu)">${(S.b||[]).length}/${BG.length} earned: ${BG.map(b=>b[2]).join(" · ")}</div></div><h2>🏆 Leaderboard</h2><div class="card lb">${lb.length?lb.map((r,i)=>`<div><span>${i+1}. ${esc(r.name)}</span><b>🪙 ${r.coins}</b></div>`).join(""):'<span style="color:var(--mu)">'+(db?"No players yet — be the first! Set a name above.":"Online leaderboard connects when you open this page signed in.")+"</span>"}</div>
+  <h2>🛒 Shop</h2><div class="card"><button ${S.coins<30?"disabled":""} onclick="if(S.coins>=30){S.coins-=30;S.hints++;save();render()}">Buy 50/50 hint — 🪙 30</button></div>`}
+ else if(V=="pl"){const L=plist();$.innerHTML=head("home")+`<h1>👥 Players</h1><div class="card lb">${L.map((r,i)=>`<div><span>${i==0?"👑 ":""}<b>${esc(r.n)}</b>${r.n==S.name?" (playing)":""}<br><small style="color:var(--mu)">🪙 ${r.c} · ${r.s} stages</small></span>${r.n==S.name?"":`<button class="ghost" style="padding:6px 10px" data-n="${esc(r.n)}" onclick="swp(this.dataset.n)">Play</button>`}</div>`).join("")}</div>
+<div class="card"><input id="np" placeholder="New player name" maxlength="14"><button style="width:100%;margin-top:8px" onclick="addp()">➕ Add player</button></div>
+<div class="card"><b>Start again</b><div style="color:var(--mu);font-size:14px;margin:6px 0">Clears ${esc(S.name)}'s coins, stages, badges and My Life items.</div><button style="background:var(--no)" onclick="resetp()">${G.rc?"⚠️ Tap again to confirm":"🗑️ Reset my progress"}</button>${L.length>1?` <button class="ghost" onclick="delp()">${G.dc?"⚠️ Tap again to confirm":"Remove this player"}</button>`:""}</div>`}
+else if(V=="dset"){const L=plist(),o=L.map(r=>`<option>${esc(r.n)}</option>`).join(""),o2=L.map((r,i)=>`<option ${i==1?"selected":""}>${esc(r.n)}</option>`).join("");$.innerHTML=head("home")+`<h1>⚔️ 2-Player Duel</h1><div class="card c" style="color:var(--mu)">Pass-and-play on one device: both players answer the same 5 questions. The higher score wins coins!</div>`+(L.length<2?`<div class="card c">Add a second player first.<br><br><button onclick="go('pl')">👥 Add player</button></div>`:`<div class="card">Player 1<select id="da">${o}</select>Player 2<select id="db2">${o2}</select>Subject<select id="ds">${Object.entries(SUBS).map(([k,v])=>`<option value="${k}">${v[0]} ${v[1]}</option>`).join("")}</select>Level<select id="dl">${LV.map((l,i)=>`<option value="${i+1}">${l}</option>`).join("")}</select><button style="width:100%" onclick="dstart()">Start duel</button></div>`)}
+else if(V=="pass"){const D=G.D;$.innerHTML=head()+`<div class="big">📱</div><h1 class="c">Pass to ${esc(D.n[1])}</h1><div class="card c">${esc(D.n[0])} scored <b>${D.sc[0]}/${QN}</b>.<br>Same questions — can you beat it?</div><button style="width:100%" onclick="duelGo()">I'm ready</button>`}
+else if(V=="duel"){const D=G.D,w=D.sc[0]>D.sc[1]?0:D.sc[1]>D.sc[0]?1:-1;$.innerHTML=head()+`<div class="big">${w<0?"🤝":"🏆"}</div><h1 class="c">${w<0?"It's a draw!":esc(D.n[w])+" wins!"}</h1><div class="card c">${esc(D.n[0])}: <b>${D.sc[0]}</b> · ${esc(D.n[1])}: <b>${D.sc[1]}</b><br>${w<0?"No coins this time.":"Winner earns 🪙 "+20*G.l}</div><div class="grid"><button class="ghost" onclick="go('home')">Home</button><button onclick="go('dset')">Rematch</button></div>`}
+else if(V=="life"){$.innerHTML=head("home")+`<h1>🏡 My Life</h1><div class="c" style="color:var(--mu)">Spend the coins you earn to build your dream life, one step at a time.</div>`+Object.entries(LIFE).map(([k,[t,it]])=>{const n=(S.L||{})[k]||0,nx=it[n];return`<div class="card"><b>${t}</b> <small style="color:var(--mu)">${n}/${it.length}</small><div style="font-size:30px;margin:8px 0">${it.slice(0,n).map(i=>i[0]).join(" ")||"<small style='color:var(--mu);font-size:14px'>Nothing yet</small>"}</div>${nx?`<button ${S.coins<nx[2]?"disabled":""} style="width:100%" onclick="buy('${k}')">${nx[0]} ${nx[1]} — 🪙 ${nx[2]}</button>`:"✅ Completed!"}</div>`}).join("")}
+ else if(V=="sub"){const[e,n]=SUBS[G.s];
+  $.innerHTML=head("home")+`<h1>${e} ${n}</h1><div class="tabs">${[1,2,3].map(l=>`<button class="${G.l==l?"":"ghost"}" ${unlocked(G.s,l)?"":"disabled"} onclick="go('sub',{l:${l}})">${unlocked(G.s,l)?"":"🔒 "}${LV[l-1]}</button>`).join("")}</div>
+  <div class="c" style="color:var(--mu)">Clear all 5 stages to unlock the next level. Earn ${5*G.l} 🪙 per right answer, plus ⚡ bonus coins for answering fast (${[20,15,12][G.l-1]}s per question).</div>
+  <div class="stages">${[1,2,3,4,5].map(i=>{const c=cleared(G.s,G.l);const cl=i<=c?"done":i==c+1?"":"lock";return`<div class="st ${cl}" onclick="${cl=="lock"?"":`start(${i})`}">${i<=c?"✓":i}<small>${i<=c?"★":""}</small></div>`}).join("")}</div>
+  <div class="c"><button class="ghost" onclick="start(Math.min(cleared(G.s,G.l)+1,${PER}))">Replay / continue</button></div>`}
+ else if(V=="quiz"){const q=G.qs[G.i];
+  $.innerHTML=head("sub")+`<div class="bar"><i style="width:${G.i/QN*100}%"></i></div><div class="bar" style="margin-top:6px"><i id="tb" style="width:${Math.max(TL/TM*100,0)}%;background:var(--gold)"></i></div><div style="color:var(--mu);margin-top:6px">Question ${G.i+1}/${QN} · ${LV[G.l-1]} · Stage ${G.st}</div>
+  <div class="q">${esc(q.q)}</div>${G.opts.map((o,j)=>`<button class="opt ${G.done?(o==q.c?"ok":j==G.pick?"no":""):(G.gone&&G.gone.includes(o)?"no":"")}" ${G.done||(G.gone&&G.gone.includes(o))?"disabled":""} onclick="ans(${j})">${esc(o)}</button>`).join("")}
+  ${G.done?`<div class="fact">${G.pick<0?"⏰ Time's up! ":""}${G.sb?"⚡ Speed bonus +"+G.sb+" 🪙 · ":""}💡 ${esc(q.f)}</div><button onclick="next()">${G.i+1<QN?"Next →":"Finish"}</button>`:`<button class="ghost" ${S.hints<1||G.gone?"disabled":""} onclick="hint()">50/50 hint (${S.hints})</button>`}`}
+ else if(V=="res"){const pass=G.sc>=3;
+  $.innerHTML=head()+`<div class="big">${pass?(G.sc==QN?"🏆":"🎉"):"💪"}</div><h1 class="c">${pass?"Stage cleared!":"Almost there!"}</h1>
+  <div class="card c">Score: <b>${G.sc}/${QN}</b><br>Coins earned: <b>🪙 ${G.earn}</b>${G.first&&pass?"<br>First-clear bonus included!":""}${(G.nb||[]).length?"<br>New badge: "+G.nb.map(i=>BG.find(b=>b[0]==i)[1]+" "+BG.find(b=>b[0]==i)[2]).join(", "):""}<br><small style="color:var(--mu)">${pass?"":"Score 3 or more to clear a stage."}</small></div>
+  <div class="grid"><button class="ghost" onclick="go('sub')">Stages</button><button onclick="start(${pass&&G.st<PER?G.st+1:G.st})">${pass&&G.st<PER?"Next stage":"Try again"}</button></div>`}
+}
+function start(st){G.dm=0;G.st=st;G.qs=build(G.s,G.l,st);G.i=0;G.sc=0;G.earn=0;G.af=0;q1();go("quiz")}
+function q1(){G.opts=shuf(G.qs[G.i].o);G.done=false;G.gone=null;G.pick=-1;G.sb=0;tstart()}
+let T=null,TL=1,TM=1;
+function tstart(){clearInterval(T);TM=TL=[20,15,12][G.l-1];T=setInterval(()=>{if(V!="quiz"||G.done){clearInterval(T);return}TL-=0.1;const b=document.getElementById("tb");if(b)b.style.width=Math.max(TL/TM*100,0)+"%";if(TL<=0){clearInterval(T);ans(-1)}},100)}
+function ans(j){clearInterval(T);G.pick=j;G.done=true;if(G.opts[j]==G.qs[G.i].c){G.sc++;G.earn+=5*G.l;if(TL>TM/2){G.sb=2*G.l;G.earn+=G.sb;G.af=1}snd(660);setTimeout(()=>snd(880),90)}else snd(180,.25,"sawtooth");render()}
+function hint(){if(S.hints<1)return;S.hints--;const c=G.qs[G.i].c;G.gone=shuf(G.opts.filter(o=>o!=c)).slice(0,2);save();render()}
+function next(){if(++G.i<QN){q1();render();return}
+ if(G.dm){duelEnd();return}const pass=G.sc>=3,k=G.s+G.l;G.first=false;
+ if(pass){if(G.st>cleared(G.s,G.l)){S.p[k]=G.st;G.first=true;G.earn+=10*G.l}if(G.sc==QN)G.earn+=10}
+ S.coins+=G.earn;badges();save();go("res");if(pass){confetti();snd(523);setTimeout(()=>snd(659),120);setTimeout(()=>snd(784),240)}}
+const BG=[["first","🌱","First Clear"],["perf","💯","Perfect Score"],["fast","⚡","Speed Demon"],["rich","💰","100 Coins"],["streak","🔥","3-Day Streak"],["lvl","🎓","Level Master"],["car","🚗","First Vehicle"],["house","🏠","Homeowner"]];
+function badges(){const a=S.b=S.b||[];G.nb=[];const add=i=>{if(!a.includes(i)){a.push(i);G.nb.push(i)}};if(G.first)add("first");if(G.sc==QN)add("perf");if(G.af)add("fast");if(S.coins>=100)add("rich");if((S.streak||0)>=3)add("streak");if(Object.values(S.p).some(v=>v>=PER))add("lvl")}
+let AC=null;function snd(f,d=.12,t="sine"){if(S.mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+function confetti(){for(let i=0;i<40;i++){const e=document.createElement("span");e.className="cf";e.textContent=["🎉","⭐","🪙","✨"][i%4];e.style.left=rnd(100)+"vw";e.style.animationDelay=Math.random()*.6+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),3000)}}
+function daily(){const d=new Date(),t=d.toDateString();if(S.last==t)return;d.setDate(d.getDate()-1);S.streak=S.last==d.toDateString()?(S.streak||0)+1:1;G.dbonus=10*Math.min(S.streak,7);S.coins+=G.dbonus;S.last=t;save()}
+const LIFE={house:["🏠 Build a House",[["🟫","Buy land",150],["🧱","Foundation",250],["🏗️","Walls",400],["🏘️","Roof",550],["🚪","Doors & windows",500],["🏡","Finishing & paint",700]]],
+vehicle:["🚗 Vehicles",[["🚲","Bicycle",100],["🛵","Motorbike",300],["🚗","Car",900],["🏎️","Luxury car",2200]]],
+school:["🎓 Tuition & Education",[["📘","Primary school fees",80],["📗","Secondary school fees",200],["🏫","College fees",500],["🎓","University tuition",1000],["📜","Master's degree",1800]]],
+biz:["🏪 Business",[["🛒","Market stall",200],["🏪","Shop",700],["🏢","Company",1800]]]};
+function buy(k){S.L=S.L||{};const it=LIFE[k][1][S.L[k]||0];if(!it||S.coins<it[2])return;S.coins-=it[2];S.L[k]=(S.L[k]||0)+1;const a=S.b=S.b||[];if(S.L.vehicle>=1&&!a.includes("car"))a.push("car");if(S.L.house>=6&&!a.includes("house"))a.push("house");save();confetti();snd(523);setTimeout(()=>snd(784),120);render()}
+function share(){const t="🧠 BrainQuest – learn, earn coins and build your dream life! Play: ",u=location.href;if(navigator.share)navigator.share({title:"BrainQuest",text:t,url:u}).catch(()=>{});else{try{navigator.clipboard.writeText(t+u)}catch(e){}G.sh=1;render()}}
+function plist(){try{return Object.keys(localStorage).filter(k=>k.startsWith("bq:")).map(k=>{const d=JSON.parse(localStorage.getItem(k));return{n:k.slice(3),c:d.coins||0,s:Object.values(d.p||{}).reduce((a,b)=>a+b,0)}}).sort((a,b)=>b.c-a.c)}catch(e){return[{n:S.name,c:S.coins,s:total()}]}}
+function swp(n){let d={};try{d=JSON.parse(localStorage.getItem("bq:"+n)||"{}")}catch(e){}S=Object.assign({name:n,coins:0,hints:0,p:{}},d);S.name=n;G={};save();daily();go("home")}
+function addp(){const n=document.getElementById("np").value.trim();if(n)swp(n)}
+function resetp(){if(!G.rc){G.rc=1;G.dc=0;render();return}const n=S.name;S={name:n,coins:0,hints:0,p:{}};G={};save();daily();go("home")}
+function delp(){if(!G.dc){G.dc=1;G.rc=0;render();return}try{localStorage.removeItem("bq:"+S.name)}catch(e){}const o=plist().filter(r=>r.n!=S.name)[0];swp(o?o.n:"Player 1")}
+function dstart(){const a=document.getElementById("da").value,b=document.getElementById("db2").value;if(a==b)return;G.s=document.getElementById("ds").value;G.l=+document.getElementById("dl").value;G.st=2;G.qs=build(G.s,G.l,2);G.i=0;G.sc=0;G.earn=0;G.af=0;G.dm=1;G.D={n:[a,b],sc:[0,0],t:0};q1();go("quiz")}
+function duelGo(){G.i=0;G.sc=0;G.earn=0;q1();go("quiz")}
+function pay(n,c){if(n==S.name){S.coins+=c;save()}else{try{const d=JSON.parse(localStorage.getItem("bq:"+n)||"{}");d.coins=(d.coins||0)+c;localStorage.setItem("bq:"+n,JSON.stringify(d))}catch(e){}}}
+function duelEnd(){const D=G.D;D.sc[D.t]=G.sc;if(D.t==0){D.t=1;go("pass")}else{const w=D.sc[0]>D.sc[1]?0:D.sc[1]>D.sc[0]?1:-1;if(w>=0)pay(D.n[w],20*G.l);G.dm=0;go("duel")}}
+daily();render();
+
+
+if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
+let IP=null;const ib=document.createElement("button");ib.textContent="⬇️ Install app";ib.style.cssText="position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:20;display:none;box-shadow:0 4px 14px #0004";document.body.appendChild(ib);
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();IP=e;ib.style.display="block"});
+ib.onclick=async()=>{if(IP){IP.prompt();await IP.userChoice;IP=null;ib.style.display="none"}};
+addEventListener("appinstalled",()=>{ib.style.display="none"});
+</script></body></html>
