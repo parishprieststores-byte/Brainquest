@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><title>BrainQuest</title>
 <link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#6c47ff">
-<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-title" content="BrainQuest"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
@@ -312,7 +312,7 @@ function next(){if(++G.i<QN){q1();render();return}
  S.coins+=G.earn;badges();save();go("res");if(pass){confetti();snd(523);setTimeout(()=>snd(659),120);setTimeout(()=>snd(784),240)}}
 const BG=[["first","🌱","First Clear"],["perf","💯","Perfect Score"],["fast","⚡","Speed Demon"],["rich","💰","100 Coins"],["streak","🔥","3-Day Streak"],["lvl","🎓","Level Master"],["car","🚗","First Vehicle"],["house","🏠","Homeowner"],["wed","💍","Married"],["kid","👶","Parent"],["wld","🌍","Globe-trotter"],["crown","👑","Crowned"]];
 function badges(){const a=S.b=S.b||[];G.nb=[];const add=i=>{if(!a.includes(i)){a.push(i);G.nb.push(i)}};if(G.first)add("first");if(G.sc==QN)add("perf");if(G.af)add("fast");if(S.coins>=100)add("rich");if((S.streak||0)>=3)add("streak");if(Object.values(S.p).some(v=>v>=PER))add("lvl")}
-let AC=null;function snd(f,d=.12,t="sine"){if(S.mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+let AC=null;function snd(f,d=.12,t="sine"){if(S.mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state=="suspended")AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
 function confetti(){for(let i=0;i<40;i++){const e=document.createElement("span");e.className="cf";e.textContent=["🎉","⭐","🪙","✨"][i%4];e.style.left=rnd(100)+"vw";e.style.animationDelay=Math.random()*.6+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),3000)}}
 function daily(){const d=new Date(),t=d.toDateString();if(S.last==t)return;d.setDate(d.getDate()-1);S.streak=S.last==d.toDateString()?(S.streak||0)+1:1;G.dbonus=10*Math.min(S.streak,7);S.coins+=G.dbonus;S.last=t;save()}
 const LIFE={house:["🏠 Build a House",[["🟫","Buy land",150],["🧱","Foundation",250],["🏗️","Walls",400],["🏘️","Roof",550],["🚪","Doors & windows",500],["🏡","Finishing & paint",700]]],
@@ -484,4 +484,11 @@ let IP=null;const ib=document.createElement("button");ib.textContent="⬇️ Ins
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();IP=e;ib.style.display="block"});
 ib.onclick=async()=>{if(IP){IP.prompt();await IP.userChoice;IP=null;ib.style.display="none"}};
 addEventListener("appinstalled",()=>{ib.style.display="none"});
+
+(function(){try{const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform=="MacIntel"&&navigator.maxTouchPoints>1);
+const sa=navigator.standalone||matchMedia("(display-mode: standalone)").matches;
+if(!ios||sa||!location.protocol.startsWith("http")||localStorage.getItem("bqios"))return;
+const b=document.createElement("div");b.style.cssText="position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;box-shadow:0 6px 20px #0005;font-size:15px";
+b.innerHTML='📲 <b>Install BrainQuest on your iPhone</b><br>Tap the <b>Share</b> button <span style="font-size:18px">⬆️</span> then choose <b>Add to Home Screen</b>.<br><button style="margin-top:8px;padding:6px 12px">Got it</button>';
+b.querySelector("button").onclick=()=>{try{localStorage.setItem("bqios","1")}catch(e){}b.remove()};document.body.appendChild(b)}catch(e){}})();
 </script></body></html>
