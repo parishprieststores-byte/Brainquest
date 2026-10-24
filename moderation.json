@@ -1,0 +1,13 @@
+{
+ "chatEnabled": true,
+ "dmEnabled": true,
+ "voiceEnabled": true,
+ "slowSeconds": 3,
+ "lockedRooms": [],
+ "bannedIds": [],
+ "bannedNames": [],
+ "bannedWords": [],
+ "hiddenMessages": [],
+ "announcement": "",
+ "ownerPub": ""
+}
