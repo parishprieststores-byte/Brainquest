@@ -1,1 +1,247 @@
-[]
+[{
+  "version": "1.0.0",
+  "title": "JAMB and WAEC Examination Practice",
+  "lastUpdated": "2026-10-25",
+  "examinations": [
+    {
+      "id": "jamb_utme",
+      "name": "JAMB UTME",
+      "description": "Syllabus-aligned practice questions for JAMB candidates",
+      "subjects": [
+        "Use of English",
+        "Mathematics",
+        "Biology",
+        "Chemistry",
+        "Physics",
+        "Economics",
+        "Government"
+      ]
+    },
+    {
+      "id": "waec_wassce",
+      "name": "WAEC WASSCE",
+      "description": "Syllabus-aligned practice questions for WAEC candidates",
+      "subjects": [
+        "English Language",
+        "General Mathematics",
+        "Biology",
+        "Chemistry",
+        "Physics",
+        "Economics",
+        "Government"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "JAMB-ENG-001",
+      "exam": "jamb_utme",
+      "subject": "Use of English",
+      "topic": "Lexis and Structure",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "Choose the word nearest in meaning to 'diligent'.",
+      "options": {
+        "A": "Careless",
+        "B": "Hardworking",
+        "C": "Impatient",
+        "D": "Dishonest"
+      },
+      "correctAnswer": "B",
+      "explanation": "Diligent means hardworking, careful and persistent in carrying out one's duties.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "JAMB-MTH-001",
+      "exam": "jamb_utme",
+      "subject": "Mathematics",
+      "topic": "Algebra",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "Solve for x: 3x + 5 = 20.",
+      "options": {
+        "A": "3",
+        "B": "5",
+        "C": "7",
+        "D": "10"
+      },
+      "correctAnswer": "B",
+      "explanation": "Subtract 5 from both sides to obtain 3x = 15. Divide both sides by 3 to obtain x = 5.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "JAMB-BIO-001",
+      "exam": "jamb_utme",
+      "subject": "Biology",
+      "topic": "Cell Biology",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "Which cell organelle is primarily responsible for aerobic respiration?",
+      "options": {
+        "A": "Ribosome",
+        "B": "Golgi apparatus",
+        "C": "Mitochondrion",
+        "D": "Lysosome"
+      },
+      "correctAnswer": "C",
+      "explanation": "Mitochondria are the principal sites of aerobic respiration and ATP production in eukaryotic cells.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "JAMB-CHM-001",
+      "exam": "jamb_utme",
+      "subject": "Chemistry",
+      "topic": "Acids, Bases and Salts",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "What is the pH of a neutral aqueous solution at 25 degrees Celsius?",
+      "options": {
+        "A": "2",
+        "B": "5",
+        "C": "7",
+        "D": "12"
+      },
+      "correctAnswer": "C",
+      "explanation": "At 25 degrees Celsius, a neutral aqueous solution has a pH of 7.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "JAMB-PHY-001",
+      "exam": "jamb_utme",
+      "subject": "Physics",
+      "topic": "Motion",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "A car travels 120 metres in 10 seconds. What is its average speed?",
+      "options": {
+        "A": "10 m/s",
+        "B": "12 m/s",
+        "C": "20 m/s",
+        "D": "1200 m/s"
+      },
+      "correctAnswer": "B",
+      "explanation": "Average speed = distance divided by time = 120/10 = 12 m/s.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "WAEC-MTH-001",
+      "exam": "waec_wassce",
+      "subject": "General Mathematics",
+      "topic": "Percentages",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "A student scores 36 marks out of 45. What percentage did the student score?",
+      "options": {
+        "A": "60%",
+        "B": "70%",
+        "C": "80%",
+        "D": "90%"
+      },
+      "correctAnswer": "C",
+      "explanation": "Percentage = (36/45) x 100 = 80%.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "WAEC-BIO-001",
+      "exam": "waec_wassce",
+      "subject": "Biology",
+      "topic": "Ecology",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "Which of the following organisms is a producer in a typical terrestrial ecosystem?",
+      "options": {
+        "A": "Grass",
+        "B": "Goat",
+        "C": "Lion",
+        "D": "Earthworm"
+      },
+      "correctAnswer": "A",
+      "explanation": "Green plants such as grass produce organic food through photosynthesis and form the producer level of a typical terrestrial food chain.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "WAEC-CHM-001",
+      "exam": "waec_wassce",
+      "subject": "Chemistry",
+      "topic": "Atomic Structure",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "What is the electrical charge of a proton?",
+      "options": {
+        "A": "Negative",
+        "B": "Positive",
+        "C": "Neutral",
+        "D": "Variable in every atom"
+      },
+      "correctAnswer": "B",
+      "explanation": "A proton carries one unit of positive elementary electric charge.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "WAEC-PHY-001",
+      "exam": "waec_wassce",
+      "subject": "Physics",
+      "topic": "Electricity",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "A current of 2 A flows through a resistor of 5 ohms. What is the potential difference across the resistor?",
+      "options": {
+        "A": "2.5 V",
+        "B": "5 V",
+        "C": "7 V",
+        "D": "10 V"
+      },
+      "correctAnswer": "D",
+      "explanation": "Using Ohm's law, V = IR = 2 x 5 = 10 V.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    },
+    {
+      "id": "WAEC-GOV-001",
+      "exam": "waec_wassce",
+      "subject": "Government",
+      "topic": "Principles of Democracy",
+      "difficulty": "easy",
+      "type": "multiple_choice",
+      "question": "Which principle allows citizens to choose their political representatives through elections?",
+      "options": {
+        "A": "Hereditary succession",
+        "B": "Electoral participation",
+        "C": "Military rule",
+        "D": "Absolute monarchy"
+      },
+      "correctAnswer": "B",
+      "explanation": "Electoral participation enables citizens to select their representatives through elections.",
+      "marks": 1,
+      "sourceType": "original_practice",
+      "verified": false
+    }
+  ],
+  "quizSettings": {
+    "shuffleQuestions": true,
+    "shuffleOptions": true,
+    "showExplanationAfterAnswer": true,
+    "allowRetake": true,
+    "showScoreAfterSubmission": true,
+    "allowReview": true,
+    "defaultTimeLimitMinutes": 30,
+    "defaultPassPercentage": 50
+  }
+    }]
