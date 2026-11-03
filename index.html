@@ -76,6 +76,9 @@ button.tl:hover{border-color:var(--pr)}
 .vr{font-size:13px;margin-top:6px;font-weight:600}.vr.ok{color:var(--ok)}.vr.no{color:var(--no)}
 .vsel{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-top:8px;font-size:13px;color:var(--mu)}.vsel select{margin:0}
 .lb .me{background:rgba(91,75,219,.1);border-radius:8px;padding-left:6px;padding-right:6px}
+.fmq{font-size:13px;color:var(--mu);margin:2px 0 6px;text-align:center}
+.fmt{display:inline-block;font-size:11px;font-weight:700;border-radius:8px;padding:2px 8px;margin-left:6px;background:rgba(91,75,219,.12);color:var(--pr)}
+.fmt.h{background:rgba(224,71,91,.12);color:var(--no)}
 </style></head><body><div id="app"></div>
 <script>
 const SUBS={math:["🧮","Math"],geo:["🌍","Geography"],sci:["🔬","Science"],word:["📚","Words"],hist:["🏛️","History"],tech:["💻","Technology"],soc:["⚽","Soccer"],bib:["✝️","Bible"],gk:["🎯","General Quiz"],acc:["📒","Accounting"],phone:["🔧","Phone Repair"],lit:["📖","Literature"],bio:["🧬","Biology"],comp:["🖥️","Computer"],sec:["🔐","Security"],safe:["🦺","Safety"],eth:["⚖️","Ethics"],isci:["🔭","Intermediate Science"],agr:["🌾","Agric Science"],inv:["🕵️","Investigations"],crm:["📕","Crime Fiction"]};
@@ -303,14 +306,14 @@ function save(){payB();try{localStorage.setItem("bq:"+S.name,JSON.stringify(S));
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const $=document.getElementById("app");
 
-const IC={home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',learn:'<path d="M2 5h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 5h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/>',play:'<rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 12.5h4M9 10.5v4"/><circle cx="16" cy="11.5" r=".9" fill="currentColor"/><circle cx="18.2" cy="14" r=".9" fill="currentColor"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14c2.8 0 4.5 1.8 4.5 4.5"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/>',set:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',file:'<path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/>',spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16v4M17 18h4"/>',target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>',go:'<path d="M7 4l13 8-13 8z"/>',heart:'<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.7A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/>',duel:'<path d="M4 4l9 9M20 4l-9 9M3 21l4-4M21 21l-4-4M6 14l4 4M18 14l-4 4"/>',cup:'<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8"/>',crown:'<path d="M3 8l4 4 5-7 5 7 4-4-2 11H5z"/>',chat:'<path d="M4 4h16v12H9l-5 4z"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',phone:'<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/>',cloud:'<path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 11.5 3.3 3.3 0 0 0 7 18z"/>',flame:'<path d="M12 3s5 4 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-8z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/>',sound:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 9a4 4 0 0 1 0 6"/>',cart:'<path d="M3 4h3l2.5 11h10L21 7H7"/><circle cx="10" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/>',story:'<path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M9 8h6M9 12h6"/>',arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'};
+const IC={home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',learn:'<path d="M2 5h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 5h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/>',play:'<rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 12.5h4M9 10.5v4"/><circle cx="16" cy="11.5" r=".9" fill="currentColor"/><circle cx="18.2" cy="14" r=".9" fill="currentColor"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14c2.8 0 4.5 1.8 4.5 4.5"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/>',set:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',file:'<path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/>',spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16v4M17 18h4"/>',target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>',go:'<path d="M7 4l13 8-13 8z"/>',heart:'<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.7A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/>',duel:'<path d="M4 4l9 9M20 4l-9 9M3 21l4-4M21 21l-4-4M6 14l4 4M18 14l-4 4"/>',cup:'<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8"/>',crown:'<path d="M3 8l4 4 5-7 5 7 4-4-2 11H5z"/>',chat:'<path d="M4 4h16v12H9l-5 4z"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',phone:'<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/>',cloud:'<path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6 11.5 3.3 3.3 0 0 0 7 18z"/>',flame:'<path d="M12 3s5 4 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-8z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/>',sound:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 9a4 4 0 0 1 0 6"/>',cart:'<path d="M3 4h3l2.5 11h10L21 7H7"/><circle cx="10" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/>',story:'<path d="M5 3h11a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z"/><path d="M9 8h6M9 12h6"/>',arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',cross:'<path d="M12 3v18M6 8h12"/>'};
 function ic(n,s){return`<svg class="ic" width="${s||22}" height="${s||22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||""}</svg>`}
 function tl(i,t,d,a,c){return`<button class="tl ${c||""}" onclick="${a}"><span class="ti">${ic(i)}</span><span class="tt"><b>${t}</b>${d?`<small>${d}</small>`:""}</span></button>`}
 function sech(t,a){return`<div class="sh"><h2>${t}</h2>${a||""}</div>`}
 let BQT="home";
-const NAVM={home:"home",tdy:"home",learn:"learn",sub:"learn",life:"learn",exh:"learn",exr:"learn",sth:"learn",sty:"learn",str:"learn",ai:"learn",res:"learn",play:"play",vf:"play",dset:"play",jh:"play",jres:"play",duel:"play",cmp:"play",comm:"comm",chat:"comm",pl:"comm",prof:"prof",set:"prof",own:"prof"};
+const NAVM={home:"home",tdy:"home",learn:"learn",sub:"learn",life:"learn",exh:"learn",exr:"learn",sth:"learn",sty:"learn",str:"learn",ai:"learn",res:"learn",play:"play",vf:"play",fms:"play",dset:"play",jh:"play",jres:"play",duel:"play",cmp:"play",comm:"comm",chat:"comm",pl:"comm",prof:"prof",set:"prof",own:"prof"};
 const NAVH=["quiz","jq","exq","stq","pass","dmt"];
-function bqNav(){let n=document.getElementById("bqnav");const hide=NAVH.includes(V)||(V=="cmp"&&["play","count"].includes(CX.ph));if(hide){if(n)n.remove();delete $.dataset.nav;return}
+function bqNav(){let n=document.getElementById("bqnav");const hide=NAVH.includes(V)||(V=="cmp"&&["play","count"].includes(CX.ph))||(V=="fms"&&["play","count"].includes(FM.ph));if(hide){if(n)n.remove();delete $.dataset.nav;return}
  const a=NAVM[V]||BQT,L=[["home","home","Home"],["learn","learn","Learn"],["play","play","Play"],["comm","users","Community"],["prof","user","Profile"]];
  if(!n){n=document.createElement("nav");n.id="bqnav";n.className="bn";n.setAttribute("aria-label","Main navigation");document.body.appendChild(n)}
  n.innerHTML="<div>"+L.map(x=>`<button class="${a==x[0]?"on":""}" ${a==x[0]?'aria-current="page"':""} onclick="go('${x[0]}')">${ic(x[1],22)}<span>${x[2]}</span></button>`).join("")+"</div>";$.dataset.nav="1"}
@@ -326,7 +329,7 @@ function wxs(){return TD.wx?wmo(TD.wx.current.weather_code)[0]+" "+Math.round(TD
 function bqHome(){return dh()+wcard()
 +sech("Quick actions")+`<div class="tg t4">${tl("go","Continue Learning",cdesc(),cact())}${tl("file","JAMB & WAEC Prep","Exam practice","go('exh')","g")}${tl("spark","AI Study Assistant","Quiz me on a book","go('ai')")}${tl("target","Daily Challenge",MOD.jDaily===true?"One journey per day":"Journey questions","go('jh')","o")}</div>`
 +sech("Learn & Practise",`<a href="#" onclick="go('learn');return false">See all</a>`)+`<div class="tg">${tl("heart","My Life","Build your life path","go('life')")}${tl("file","JAMB & WAEC Prep","Past-question practice","go('exh')","g")}${tl("story","Knowledge Stories","Read and answer","go('sth')")}${tl("spark","AI Study Assistant (Gemini)","Study from your books","go('ai')","o")}</div>`
-+sech("Games & Competitions",`<a href="#" onclick="go('play');return false">See all</a>`)+`<div class="tg t4">${tl("duel","2-Player Duel","Face a friend","go('dset')")}${tl("cup","Group Competition","Host or join","go('cmp')","g")}${tl("crown","Leaderboard Journey","Become King or Queen","go('jh')","o")}${tl("play","Virtual Football","Predict results, win coins","go('vf')")}</div>`
++sech("Games & Competitions",`<a href="#" onclick="go('play');return false">See all</a>`)+`<div class="tg t4">${tl("duel","2-Player Duel","Face a friend","go('dset')")}${tl("cup","Group Competition","Host or join","go('cmp')","g")}${tl("crown","Leaderboard Journey","Become King or Queen","go('jh')","o")}${tl("play","Virtual Football","Predict results, win coins","go('vf')")}${tl("cross","Feed My Sheep Challenge","Bible quiz · join with code","go('fms')","g")}</div>`
 +sech("Community",`<a href="#" onclick="go('comm');return false">See all</a>`)+`<div class="tg">${tl("chat","Chat, DMs & Voice",onl(),"go('chat')")}${tl("users","Players / Reset","Switch player or reset","go('pl')","g")}</div>`
 +sech("Daily briefing")+`<div class="card bc"><span class="ti">${ic("cloud")}</span><div style="flex:1;min-width:0"><b>Today</b><div style="color:var(--mu);font-size:13px">${wxs()}</div></div><button class="ghost" style="padding:9px 12px;font-size:13px" onclick="go('tdy');tdOpen()">View Today's Updates</button></div>`}
 function bqLearn(){const T=Object.keys(SUBS).length*3*PER,c=total(),p=Math.min(100,Math.round(c/T*100)),n=Object.keys(SUBS).filter(k=>[1,2,3].some(l=>cleared(k,l)>0)).length;
@@ -334,7 +337,7 @@ function bqLearn(){const T=Object.keys(SUBS).length*3*PER,c=total(),p=Math.min(1
 +`<div class="tg t3">${tl("go","Continue Learning",cdesc(),cact())}${tl("heart","My Life","Build your life path","go('life')","g")}${tl("file","JAMB & WAEC Prep","Past-question practice","go('exh')")}${tl("story","Knowledge Stories","Read and answer","go('sth')","o")}${tl("spark","AI Study Assistant","Gemini study helper","go('ai')")}</div>`
 +sech("Available learning stages")+`<div style="position:relative;margin-bottom:10px"><input id="lq" type="search" placeholder="Search subjects" aria-label="Search subjects" oninput="lflt(this.value)" style="padding-left:12px"></div><div class="sg" id="sg">${Object.entries(SUBS).map(([k,[e,nm]])=>`<div class="sub" data-n="${esc(nm.toLowerCase())}" onclick="go('sub',{s:'${k}',l:1})"><span class="e">${e}</span>${nm}<br><small>${[1,2,3].reduce((a,l)=>a+cleared(k,l),0)}/${3*PER} stages</small></div>`).join("")}</div><div id="le" class="empty" style="display:none">No subjects match your search.</div>`}
 function lflt(v){v=String(v||"").trim().toLowerCase();let n=0;document.querySelectorAll("#sg .sub").forEach(e=>{const m=e.dataset.n.includes(v);e.style.display=m?"":"none";if(m)n++});const e=document.getElementById("le");if(e)e.style.display=n?"none":"block"}
-function bqPlay(){return ph("Play")+`<div class="tg tg1">${tl("duel","2-Player Duel","Two players take turns on one device","go('dset')")}${tl("cup","Group Competition","Join with the passcode; the host starts it","go('cmp')","g")}${tl("crown","Leaderboard Journey",MOD.jDaily===true?"One journey per day · King or Queen crown":"Same questions for everyone · King or Queen crown","go('jh')","o")}${tl("play","Virtual Football","Predict the results of 4 virtual matches · same round for everyone","go('vf')")}</div>`
+function bqPlay(){return ph("Play")+`<div class="tg tg1">${tl("duel","2-Player Duel","Two players take turns on one device","go('dset')")}${tl("cup","Group Competition","Join with the passcode; the host starts it","go('cmp')","g")}${tl("crown","Leaderboard Journey",MOD.jDaily===true?"One journey per day · King or Queen crown":"Same questions for everyone · King or Queen crown","go('jh')","o")}${tl("play","Virtual Football","Predict the results of 4 virtual matches · same round for everyone","go('vf')")}${tl("cross","Feed My Sheep Challenge","25 Bible questions · admin-led · tie-breaker","go('fms')","g")}</div>`
 +(S.streak?`<div class="card bc" style="margin-top:10px"><span class="ti">${ic("flame")}</span><div><b>Day ${S.streak} streak</b><div style="color:var(--mu);font-size:13px">Open the app daily for a bigger bonus (up to 70 🪙)</div></div></div>`:"")
 +sech("More games & activities")+`<div class="tg">${tl("learn","Subject Quizzes","Pick a subject and clear stages","go('learn')")}${tl("file","JAMB & WAEC Practice","Timed past questions","go('exh')","g")}${tl("story","Knowledge Stories","Read, then answer","go('sth')","o")}${tl("heart","My Life","Earn points on life paths","go('life')")}</div>`}
 function bqComm(){return ph("Community")+`<div class="tg tg1">${tl("chat","Chat","Rooms"+(PC?" · "+PC+" online":""),"go('chat')")}${tl("mail","Direct Messages","Private encrypted chats"+(UN?" · "+UN+" unread":""),"go('chat');ctab('dm')","g")}${tl("phone","Voice Calling","Start a call from a private chat","go('chat');ctab('dm')")}${tl("users","Players","See players, switch or reset","go('pl')","o")}${tl("cup","Group interactions","Group Competition lobby","go('cmp')")}</div>`}
@@ -395,6 +398,158 @@ return`<div class="card"><div class="vm"><div class="vt">${m.h}<small>OVR ${m.sh
 if(fin){h+=`<div class="card c"><div class="big">${sc.ok==4?"🏆":sc.ok>=2?"👍":"📚"}</div><b style="font-size:18px">${sc.ok}/4 correct · +${sc.earn} 🪙</b><div style="color:var(--mu);font-size:13px;margin-top:6px">${sc.ex?sc.ex+" exact score"+(sc.ex>1?"s":"")+" · ":""}${sc.ok==4?"Perfect round bonus +20 · ":""}Compare with friends: Round #${rs}</div></div><div class="card c" style="font-size:14px">Next round with new matches starts at <b>${nx}</b>.<br><button class="ghost" style="margin-top:8px" onclick="render()">🔄 Check for new round</button></div>`;
 const v=S.vf||{};h+=`<div class="card" style="font-size:13px;color:var(--mu)">📊 Rounds played: <b>${v.n||0}</b> · Correct picks: <b>${v.ok||0}</b>${v.n?" ("+Math.round(v.ok/(v.n*4)*100)+"%)":""} · Best round: <b>${v.best||0} 🪙</b></div><div id="vost" class="c" style="color:var(--mu);font-size:13px">${voLine()}</div>`+voBoards(rs)}else h+=`<div class="c" style="color:var(--mu)">⏱ Match in progress…</div>`}
 return h+`<div class="c" style="color:var(--mu);font-size:12px;margin-top:10px">Virtual matches with made-up teams. Coins are in-app points with no cash value.</div>`}
+
+const FMH="af54bc7b45c9ea87891977c9e0e03d6c33ab48c8eb007af24e3c27242f0ef974",FMX=5,FMS={his:["📜","Torah & History"],pro:["🔥","Prophets & Kings"],wis:["🎵","Psalms, Wisdom & Law"],gos:["✝️","The Gospels"],nt:["🕊️","Acts, Epistles & Revelation"]};
+const FMQ=`his|m|How many plagues did God send on Egypt before Pharaoh let Israel go?|Ten|Seven|Twelve|Five|Exodus 7-12
+his|m|On which mountain did Moses receive the Ten Commandments?|Sinai|Nebo|Carmel|Ararat|Exodus 19-20
+his|h|Who was the first judge to deliver Israel after Joshua's death?|Othniel|Ehud|Deborah|Gideon|Judges 3:9
+his|m|Whose walls fell after Israel marched around the city for seven days?|Jericho|Ai|Hebron|Gibeon|Joshua 6
+his|h|Which Moabite woman was the great-grandmother of King David?|Ruth|Orpah|Rahab|Naomi|Ruth 4:17
+his|h|Which left-handed judge killed King Eglon of Moab?|Ehud|Shamgar|Tola|Jair|Judges 3:15-21
+his|m|How many years did Israel wander in the wilderness?|Forty|Thirty|Seventy|Twelve|Numbers 14:33
+his|h|Besides Joshua, which spy urged Israel to enter Canaan?|Caleb|Hur|Eleazar|Nadab|Numbers 14:6-9
+his|h|Which priest raised the boy Samuel at Shiloh?|Eli|Zadok|Abiathar|Phinehas|1 Samuel 1-3
+his|h|Which judge made a rash vow that cost him his daughter?|Jephthah|Gideon|Samson|Abimelech|Judges 11
+his|h|Which prophet anointed Saul as Israel's first king?|Samuel|Nathan|Eli|Elijah|1 Samuel 10:1
+his|h|Which king of Judah was granted fifteen more years of life?|Hezekiah|Josiah|Uzziah|Jehoshaphat|2 Kings 20:6
+his|m|Which people captured the Ark of the Covenant in Eli's day?|Philistines|Amalekites|Midianites|Ammonites|1 Samuel 4
+his|h|Who killed Abner, commander of Saul's army?|Joab|Abishai|Benaiah|Amasa|2 Samuel 3:27
+his|m|Which feast recalls the night the blood of a lamb marked Israel's doors?|Passover|Pentecost|Tabernacles|Purim|Exodus 12
+pro|m|Which prophet challenged the prophets of Baal on Mount Carmel?|Elijah|Elisha|Isaiah|Jeremiah|1 Kings 18
+pro|m|Which prophet was swallowed by a great fish?|Jonah|Hosea|Amos|Micah|Jonah 1
+pro|m|Who succeeded Elijah as Israel's prophet?|Elisha|Gehazi|Obadiah|Micaiah|2 Kings 2
+pro|h|Which prophet was a herdsman who tended sycamore-fig trees at Tekoa?|Amos|Hosea|Joel|Nahum|Amos 7:14
+pro|h|Which prophet was told to marry a woman named Gomer?|Hosea|Amos|Joel|Zechariah|Hosea 1:3
+pro|h|In Isaiah's temple vision, how many wings did each seraph have?|Six|Two|Four|Eight|Isaiah 6:2
+pro|m|Which prophet saw a valley full of dry bones come to life?|Ezekiel|Jeremiah|Daniel|Isaiah|Ezekiel 37
+pro|h|Which prophet was lowered into a muddy cistern for his message?|Jeremiah|Ezekiel|Isaiah|Habakkuk|Jeremiah 38
+pro|h|Which king dreamed of a great statue that Daniel explained?|Nebuchadnezzar|Belshazzar|Cyrus|Darius|Daniel 2
+pro|h|Which king saw a hand write on the palace wall at a feast?|Belshazzar|Nebuchadnezzar|Darius|Cyrus|Daniel 5
+pro|h|Which Persian king decreed that the Jews could return and rebuild the temple?|Cyrus|Darius|Xerxes|Artaxerxes|Ezra 1:1-4
+pro|m|Who led the rebuilding of Jerusalem's walls?|Nehemiah|Ezra|Zerubbabel|Haggai|Nehemiah 2-6
+pro|m|Which Jewish woman became queen of Persia and saved her people?|Esther|Vashti|Ruth|Miriam|Esther 4-8
+pro|h|Which king of Israel married Jezebel?|Ahab|Omri|Jehu|Jeroboam|1 Kings 16:31
+pro|h|Which king led a great reform after the Book of the Law was found in the temple?|Josiah|Hezekiah|Manasseh|Joash|2 Kings 22
+wis|m|Which king is traditionally credited with writing most of the Psalms?|David|Solomon|Hezekiah|Josiah|Psalms
+wis|m|Which book tells of a man who lost everything yet stayed faithful?|Job|Psalms|Ecclesiastes|Lamentations|Job 1-2
+wis|m|Which psalm begins with "The LORD is my shepherd"?|Psalm 23|Psalm 1|Psalm 91|Psalm 121|Psalm 23:1
+wis|h|Which is the longest chapter in the Bible?|Psalm 119|Psalm 78|Isaiah 53|Numbers 7|176 verses
+wis|h|Which is the shortest chapter in the Bible?|Psalm 117|Psalm 23|Psalm 100|Psalm 134|Two verses
+wis|h|Which book opens with the words "Vanity of vanities"?|Ecclesiastes|Proverbs|Job|Song of Solomon|Ecclesiastes 1:2
+wis|h|Which book uses acrostic poems to mourn the fall of Jerusalem?|Lamentations|Job|Jeremiah|Ezekiel|Lamentations 1-4
+wis|h|Eliphaz, Bildad and who else were Job's three friends?|Zophar|Elihu|Eliab|Zepho|Job 2:11
+wis|h|Which psalm contains the plea "Create in me a clean heart, O God"?|Psalm 51|Psalm 23|Psalm 100|Psalm 137|Psalm 51:10
+wis|m|Who was Solomon's father?|David|Saul|Jesse|Nathan|1 Kings 2:12
+wis|m|Who travelled far to test Solomon with hard questions?|Queen of Sheba|Queen Esther|Queen Jezebel|Queen Athaliah|1 Kings 10
+wis|m|Which book of the Law records the census of Israel in the wilderness?|Numbers|Leviticus|Deuteronomy|Exodus|Numbers 1
+wis|h|Which book restates the Law to a new generation before they enter Canaan?|Deuteronomy|Numbers|Leviticus|Joshua|Deuteronomy 1:1-5
+wis|h|Which book contains the laws of the Day of Atonement?|Leviticus|Numbers|Exodus|Deuteronomy|Leviticus 16
+wis|h|According to Hebrews 9, which object held the tablets, Aaron's rod and a jar of manna?|Ark of the Covenant|Altar of incense|Table of showbread|Golden lampstand|Hebrews 9:4
+gos|m|In which town was Jesus born?|Bethlehem|Nazareth|Jerusalem|Capernaum|Luke 2:4-7
+gos|m|Which disciple was a tax collector before following Jesus?|Matthew|Peter|Thomas|Andrew|Matthew 9:9
+gos|m|Who baptised Jesus in the Jordan River?|John the Baptist|Peter|Andrew|Philip|Matthew 3:13
+gos|h|Which Pharisee visited Jesus by night in John 3?|Nicodemus|Gamaliel|Joseph of Arimathea|Simon|John 3:1-2
+gos|h|Which tax collector climbed a sycamore tree to see Jesus in Jericho?|Zacchaeus|Bartimaeus|Matthew|Cleopas|Luke 19:1-4
+gos|m|Which disciple doubted until he saw Jesus's wounds?|Thomas|Philip|Bartholomew|Thaddaeus|John 20:24-28
+gos|m|Which brother of Mary and Martha did Jesus raise from the dead?|Lazarus|Simon|Jairus|Cleopas|John 11
+gos|h|Which Roman governor handed Jesus over to be crucified?|Pontius Pilate|Herod Antipas|Felix|Festus|Matthew 27:26
+gos|h|Which prisoner was released instead of Jesus?|Barabbas|Bartimaeus|Caiaphas|Annas|Matthew 27:15-26
+gos|h|Which high priest presided at the council that condemned Jesus in Matthew 26?|Caiaphas|Gamaliel|Ananias|Eleazar|Matthew 26:57
+gos|h|Which Gospel alone records the parable of the Prodigal Son?|Luke|Matthew|Mark|John|Luke 15:11-32
+gos|h|Which Gospel records Jesus saying "I am the bread of life"?|John|Mark|Luke|Matthew|John 6:35
+gos|m|Which angel announced Jesus's birth to Mary?|Gabriel|Michael|Raphael|Uriel|Luke 1:26-31
+gos|h|Who anointed Jesus's feet with costly perfume and wiped them with her hair in John 12?|Mary of Bethany|Mary Magdalene|Martha|Salome|John 12:3
+gos|h|In which town did Jesus raise a widow's son, recorded only in Luke?|Nain|Cana|Bethany|Capernaum|Luke 7:11-15
+nt|m|Who was the first Christian martyr?|Stephen|James|Peter|Paul|Acts 7
+nt|m|On the road to which city did Saul meet the risen Jesus?|Damascus|Jerusalem|Antioch|Tarsus|Acts 9:3
+nt|h|Which sorcerer in Samaria tried to buy the power of the Holy Spirit?|Simon|Elymas|Ananias|Demetrius|Acts 8:18-19
+nt|h|Which woman in Joppa did Peter raise from the dead?|Tabitha (Dorcas)|Lydia|Priscilla|Rhoda|Acts 9:36-41
+nt|h|Which seller of purple cloth from Thyatira believed through Paul's message at Philippi?|Lydia|Phoebe|Priscilla|Eunice|Acts 16:14
+nt|m|Which centurion in Caesarea sent for Peter, and his household received the Spirit?|Cornelius|Julius|Sergius Paulus|Claudius|Acts 10
+nt|h|Which letter of Paul concerns a runaway slave named Onesimus?|Philemon|Titus|Colossians|Philippians|Philemon 10-12
+nt|m|Which letter contains the passage on the "armor of God"?|Ephesians|Galatians|Colossians|Philippians|Ephesians 6:10-18
+nt|m|Which letter contains the famous chapter on love?|1 Corinthians|Romans|Ephesians|Galatians|1 Corinthians 13
+nt|h|Which Jewish couple, tentmakers like Paul, explained God's way to Apollos?|Priscilla and Aquila|Ananias and Sapphira|Barnabas and Silas|Andronicus and Junia|Acts 18:2,26
+nt|m|How many churches did John address in the book of Revelation?|Seven|Twelve|Ten|Five|Revelation 1:4
+nt|h|To which island was John exiled when he received his vision?|Patmos|Crete|Malta|Cyprus|Revelation 1:9
+nt|h|Which co-worker received two letters from Paul?|Timothy|Titus|Silas|Barnabas|1-2 Timothy
+nt|h|Which teacher of the Law trained Paul in Jerusalem?|Gamaliel|Nicodemus|Caiaphas|Hillel|Acts 22:3
+nt|h|On which island was Paul shipwrecked on the way to Rome?|Malta|Crete|Cyprus|Rhodes|Acts 27:44-28:1`;
+const FMP=FMQ.trim().split("\n").map((l,i)=>{const r=l.split("|");return{id:i,s:r[0],l:r[1],q:r[2],c:r[3],w:[r[4],r[5],r[6]],f:r[7]||""}});
+const fmsVer=()=>"f"+FMP.length+"-"+FMQ.length.toString(36);
+const FMI={ph:"idle",topic:"",es:null,hb:null,tk:null,lobby:{},host:false,hp:"",play:true,msg:"",tq:20,stages:[],cs:null,i:0,a:"",tm:[],qt:0,lock:false,pick:-1,rv:0,tbAt:0,tbBusy:0};
+let FM=Object.assign({},FMI);
+const fmsSh=(a,r)=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a},fmsId=()=>Math.random().toString(36).slice(2,8),fmsSeed=()=>Math.floor(Math.random()*2147483646)+1;
+function fmsStage(id,seed,tq,k,mem){const r=cxprng(seed),used=new Set(),pk=[];FM.stages.forEach(s=>s.qs.forEach(q=>used.add(q.id)));
+Object.keys(FMS).forEach(s=>{const pool=FMP.filter(x=>x.s==s&&!used.has(x.id));if(k==0)pk.push(...fmsSh(pool.filter(x=>x.l=="m"),r).slice(0,2),...fmsSh(pool.filter(x=>x.l=="h"),r).slice(0,3));else pk.push(...fmsSh(pool,r).slice(0,2))});
+const qs=fmsSh(pk,r).map(x=>({id:x.id,s:x.s,l:x.l,q:x.q,c:x.c,f:x.f,o:fmsSh([x.c,...x.w],r)}));return{id,seed,tq,k,n:qs.length,qs,mem:mem.slice(),res:{},fin:false,t0:0,my:null}}
+function fmsReset(keep){clearInterval(FM.hb);clearInterval(FM.tk);if(FM.es){try{FM.es.close()}catch(e){}}FM=Object.assign({},FMI,{lobby:{},stages:[]},keep||{})}
+function fmsMsg(m){FM.msg=m;if(V=="fms")render()}
+function fmsLeave(){fmsReset();go("play")}
+const fmsName=d=>((FM.lobby[d]||{}).n)||(((FM.stages[0]||{}).res||{})[d]||{}).n||"?";
+async function fmsJoin(){const i=document.getElementById("fmc"),code=((i&&i.value)||"").trim();if(MOD.chatEnabled===false)return fmsMsg("The challenge is paused by the owner.");if(meBanned())return fmsMsg("You have been removed by the owner.");
+if(!location.protocol.startsWith("http"))return fmsMsg("The challenge needs the online app. Open it from its web address.");
+if(await cxsha("bqfms:"+code)!=FMH)return fmsMsg("Wrong code. Ask the admin for the challenge code.");
+const hp=await osload();fmsReset({host:!!hp,hp:hp||"",ph:"lobby",topic:"bq-"+CSALT+"-f-"+FMH.slice(0,12)});
+try{FM.es=new EventSource(CB()+"/"+FM.topic+"/sse?since=3m");FM.es.onmessage=ev=>{try{const e=JSON.parse(ev.data);if(e.event=="message")fmsOn(JSON.parse(e.message))}catch(x){}};FM.es.onerror=()=>{if(FM.ph=="lobby")fmsMsg("Reconnecting… check your internet connection.")}}catch(e){return fmsMsg("This browser can't join live challenges.")}
+const hb=()=>cpost(FM.topic,{t:"fj",d:DID,n:S.name,ts:Date.now()}).catch(()=>{});hb();FM.hb=setInterval(()=>{if(FM.ph=="lobby")hb()},15000);FM.tk=setInterval(fmsTick,200);FM.lobby[DID]={n:S.name,ts:Date.now()};render()}
+async function fmsHostMe(){const hp=await osload();if(hp){FM.host=true;FM.hp=hp;FM.msg="";return render()}if(MOD.ownerSig){FM.msg="A host key is already registered for this app, but it isn't on this device. Open the app where you set it up, or restore a backup in Owner tools.";return render()}FM.hp=await osgen();FM.host=true;FM.msg="";render()}
+async function fmsOn(m){if(!m||typeof m!="object")return;
+if(m.t=="fj"&&typeof m.d=="string"&&IDRE.test(m.d)&&typeof m.n=="string"&&!banned(m.d,m.n)){FM.lobby[m.d]={n:m.n.slice(0,30),ts:Date.now()};if(V=="fms"&&FM.ph=="lobby"){const e=document.getElementById("fml");if(e)e.innerHTML=fmsLobby()}}
+else if(m.t=="fs")await fmsStartMsg(m);else if(m.t=="ft")await fmsTieMsg(m);else if(m.t=="fr")fmsRes(m)}
+function fmsLobby(){const n=Date.now(),L=Object.values(FM.lobby).filter(p=>n-p.ts<45000||p===FM.lobby[DID]);return`<b>👥 Joined (${L.length})</b><div style="margin-top:6px">${L.map(p=>"🟢 "+esc(p.n)).join("<br>")}</div>`}
+async function fmsStart(){if(!FM.host||FM.ph!="lobby")return;if(MOD.ownerSig&&FM.hp&&FM.hp!=MOD.ownerSig)return fmsMsg("This device's host key doesn't match the published one, so your start would be rejected. Restore your original key in Owner tools.");if(!OSK&&!(await osload()))return fmsMsg("Create your host key in Owner tools first.");
+const nw=Date.now(),r=Object.entries(FM.lobby).filter(([d,p])=>nw-p.ts<60000&&!(d==DID&&!FM.play)).map(([d,p])=>[d,String(p.n).slice(0,30)]);if(!r.length)return fmsMsg("Nobody has joined yet.");
+const m={t:"fs",id:fmsId(),seed:fmsSeed(),tq:FM.tq,ts:nw,v:fmsVer(),r};m.sig=await osign(["fs",m.id,m.seed,m.tq,m.ts,m.v,JSON.stringify(r)].join("|"));try{await cpost(FM.topic,m)}catch(e){return fmsMsg("Could not send the start signal ("+(e.message||"offline")+").")}}
+async function fmsStartMsg(m){if(FM.ph!="lobby"||typeof m.id!="string"||m.id.length>10||!Number.isInteger(m.seed)||![15,20,30].includes(m.tq)||typeof m.ts!="number"||typeof m.v!="string"||!Array.isArray(m.r)||!m.r.length||m.r.length>80||!m.r.every(x=>Array.isArray(x)&&typeof x[0]=="string"&&IDRE.test(x[0])&&typeof x[1]=="string"&&x[1].length<=30))return;if(Math.abs(Date.now()-m.ts)>20000)return;
+const ok=await overify(["fs",m.id,m.seed,m.tq,m.ts,m.v,JSON.stringify(m.r)].join("|"),String(m.sig||""));if(ok===false||FM.ph!="lobby")return;
+if(m.v!=fmsVer()){FM.ph="idle";return fmsMsg("Your app is out of date. Reload it twice to get the latest version, then rejoin.")}
+const now=Date.now(),seen=new Set(),ros=m.r.filter(x=>!banned(x[0],x[1])&&!seen.has(x[0])&&seen.add(x[0]));ros.forEach(x=>{FM.lobby[x[0]]={n:x[1],ts:now}});FM.tq=m.tq;FM.roster=ros.map(x=>x[0]);
+const s=fmsStage(m.id,m.seed,m.tq,0,FM.roster);s.t0=now+5000;FM.stages=[s];FM.cs=s;FM.ph=FM.roster.includes(DID)?"count":"stage";clearInterval(FM.hb);render()}
+function fmsPlan(){const s0=FM.stages[0];if(!s0||!s0.fin)return null;let ptr=1,need=null,wait=false;const ok=(s,d)=>s.res[d]?s.res[d].ok:-1,nm=fmsName;
+const resolve=(g,pos)=>{if(g.length==1||pos>=3||ptr>FMX)return[{g,pos}];const st=FM.stages[ptr];if(!st){need={g,pos};return null}if(!st.fin){wait=true;return null}ptr++;const by={};g.forEach(d=>{const o=ok(st,d);(by[o]=by[o]||[]).push(d)});let out=[],p=pos;for(const k of Object.keys(by).map(Number).sort((a,b)=>b-a)){const r=resolve(by[k],p);if(!r)return null;out.push(...r);p+=by[k].length}return out};
+const by0={};s0.mem.forEach(d=>{const o=ok(s0,d);(by0[o]=by0[o]||[]).push(d)});const rows=[];let pos=0,pend=false;
+for(const k of Object.keys(by0).map(Number).sort((a,b)=>b-a)){const g=by0[k],push=(gg,p,tie,prov)=>gg.forEach(d=>rows.push({d,n:nm(d),rank:p+1,tie,prov,ok0:k,dnf:k<0}));
+if(k<0){push(g,pos,false,false)}else if(pend){push(g,pos,g.length>1,true)}else{const r=resolve(g,pos);if(r)r.forEach(x=>push(x.g,x.pos,x.g.length>1,false));else{pend=true;push(g,pos,true,true)}}pos+=g.length}
+return{rows,fin:!pend,need,wait}}
+function fmsFin(s){if(s.fin)return;s.fin=true;if(V=="fms"&&!["play","count"].includes(FM.ph))render()}
+function fmsTick(){const n=Date.now();
+if(FM.ph=="count"&&FM.cs){const r=Math.ceil((FM.cs.t0-n)/1000),e=document.getElementById("fmbig");if(e)e.textContent=Math.max(r,0);if(n>=FM.cs.t0){FM.a="";FM.tm=[];fmsQ(0)}}
+else if(FM.ph=="play"&&!FM.lock){const s=FM.cs,el=n-FM.qt,b=document.getElementById("fmtb"),t=document.getElementById("fmts");if(b)b.style.width=Math.max(100-el/(s.tq*10),0)+"%";if(t)t.textContent=Math.max(Math.ceil(s.tq-el/1000),0)+"s";if(el>=s.tq*1000)fmsAns(-1)}
+FM.stages.forEach(s=>{if(!s.fin&&s.t0&&(s.mem.every(d=>s.res[d])||n>s.t0+s.n*s.tq*1000+90000))fmsFin(s)});
+if(FM.host&&FM.stages[0]&&FM.stages[0].fin&&!FM.tbBusy){const pl=fmsPlan();if(pl&&pl.need){if(!FM.tbAt)FM.tbAt=n+8000;if(n>=FM.tbAt){FM.tbBusy=1;fmsTieSend(pl.need)}else{const e=document.getElementById("fmtc");if(e)e.textContent=Math.max(Math.ceil((FM.tbAt-n)/1000),0)}}}}
+async function fmsTieSend(nd){try{if(!OSK&&!(await osload()))throw 0;const g=[...nd.g].sort(),m={t:"ft",id:fmsId(),st:FM.stages.length,seed:fmsSeed(),g,tq:FM.tq,ts:Date.now(),v:fmsVer()};m.sig=await osign(["ft",m.id,m.st,m.seed,m.tq,g.join(","),m.ts,m.v].join("|"));await cpost(FM.topic,m)}catch(e){}FM.tbBusy=0;FM.tbAt=Date.now()+15000}
+async function fmsTieMsg(m){if(["idle","lobby"].includes(FM.ph)||!FM.stages[0]||typeof m.id!="string"||m.id.length>10||!Number.isInteger(m.seed)||m.st!==FM.stages.length||m.tq!==FM.tq||!Array.isArray(m.g)||m.g.length<2||m.g.length>80||!m.g.every(d=>typeof d=="string"&&IDRE.test(d))||typeof m.ts!="number"||m.v!=fmsVer())return;if(Math.abs(Date.now()-m.ts)>20000)return;
+const pl=fmsPlan(),g=[...m.g].sort();if(!pl||!pl.need||[...pl.need.g].sort().join()!=g.join())return;
+const ok=await overify(["ft",m.id,m.st,m.seed,m.tq,g.join(","),m.ts,m.v].join("|"),String(m.sig||""));if(ok===false||FM.stages.length!=m.st)return;
+const s=fmsStage(m.id,m.seed,m.tq,m.st,g);s.t0=Date.now()+5000;FM.stages.push(s);FM.tbBusy=0;FM.tbAt=0;if(g.includes(DID)&&!(FM.host&&!FM.play)){FM.cs=s;FM.ph="count"}render()}
+function fmsQ(i){FM.i=i;FM.qt=Date.now();FM.lock=false;FM.pick=-1;FM.ph="play";render()}
+function fmsAns(j){if(FM.ph!="play"||FM.lock)return;FM.lock=true;FM.pick=j;const s=FM.cs,q=s.qs[FM.i],ds=Math.max(1,Math.min(Math.round((Date.now()-FM.qt)/100),s.tq*10));FM.a+=j<0?"x":String(j);FM.tm.push(ds);
+if(j>=0&&q.o[j]==q.c){snd(660);correctfx()}else{snd(180,.2,"sawtooth");wrongfx()}render();
+setTimeout(()=>{if(FM.ph!="play")return;if(FM.i+1<s.n)fmsQ(FM.i+1);else fmsDone()},700)}
+async function fmsDone(){const s=FM.cs,m={t:"fr",id:s.id,d:DID,n:S.name,a:FM.a,tm:FM.tm.join(","),ts:Date.now()};s.my={a:FM.a};fmsRes(m);FM.ph="stage";render();for(let k=0;k<3;k++){try{await cpost(FM.topic,m);break}catch(e){await new Promise(r=>setTimeout(r,1500))}}}
+function fmsRes(m){const s=m&&FM.stages.find(x=>x.id===m.id);if(!s||typeof m.d!="string"||!IDRE.test(m.d)||!s.mem.includes(m.d)||s.res[m.d]||typeof m.a!="string"||m.a.length!=s.n||!/^[0-3x]+$/.test(m.a)||banned(m.d,m.n))return;
+let ok=0;for(let i=0;i<s.n;i++)if(m.a[i]!="x"&&s.qs[i].o[+m.a[i]]==s.qs[i].c)ok++;s.res[m.d]={d:m.d,n:String(m.n||"?").slice(0,30),ok};if(V=="fms"&&!["play","count"].includes(FM.ph))render()}
+function fmsReview(){const L=FM.stages.filter(s=>s.fin&&s.my);if(!L.length)return"";if(!FM.rv)return`<button class="ghost" style="width:100%;margin-bottom:8px" onclick="FM.rv=1;render()">📖 Review the questions and answers</button>`;
+return L.map(s=>`<div class="card"><b>📖 ${s.k?"Tie-breaker "+s.k:"Main round"}</b>${s.qs.map((q,i)=>{const a=s.my.a[i],pk=a&&a!="x"?q.o[+a]:null;return`<div style="margin:10px 0;font-size:14px"><b>${i+1}. ${esc(q.q)}</b><br>✅ ${esc(q.c)}<br>${pk===null?"⏱ Missed":pk==q.c?"✔ You were right":"✖ You answered: "+esc(pk)}<br><small style="color:var(--mu)">${esc(q.f)}</small></div>`}).join("")}</div>`).join("")}
+function fmsHtml(){const p=FM.ph;
+if(MOD.chatEnabled===false)return head("home")+`<div class="card c">💤 Challenges are paused by the owner.</div>`;
+if(p=="idle")return head("home")+`<h1>🐑 Feed My Sheep Challenge</h1><div class="card"><div style="color:var(--mu);font-size:14px">• 25 medium and hard Bible questions from 5 subjects<br>• Every question is timed: if you miss it, it is missed, and you cannot go back<br>• Everyone gets the same questions<br>• The admin presses Start for everyone together<br>• Results and positions appear once everyone has finished<br>• A tie is settled with 10 fresh questions</div></div><div class="card"><b>Enter the challenge code</b><input id="fmc" inputmode="numeric" maxlength="12" placeholder="Code from the admin" style="margin:8px 0"><button style="width:100%" onclick="fmsJoin()">Join</button>${FM.msg?`<div style="color:var(--no);margin-top:8px">${esc(FM.msg)}</div>`:""}</div>`;
+if(p=="lobby")return head("home")+`<h1>🐑 Lobby</h1><div class="card c" style="color:var(--mu)">${FM.host?"You are the admin.":"Waiting for the admin to start…"} Keep this screen open.</div>${FM.msg?`<div class="card c" style="color:var(--no)">${esc(FM.msg)}</div>`:""}<div class="card" id="fml">${fmsLobby()}</div>`+(FM.host?`<div class="card"><b>Time per question</b><div class="tabs" style="margin-top:8px">${[15,20,30].map(s=>`<button class="${FM.tq==s?"":"ghost"}" onclick="FM.tq=${s};render()">${s}s</button>`).join("")}</div><button class="${FM.play?"":"ghost"}" style="width:100%;margin-bottom:8px" onclick="FM.play=!FM.play;render()">${FM.play?"✅ I'm playing too":"👀 I'm only hosting"}</button><button style="width:100%" onclick="fmsStart()">▶ Start the challenge</button><div style="color:var(--mu);font-size:13px;margin-top:6px">${MOD.ownerSig?(FM.hp==MOD.ownerSig?"✅ Secured: only this device can start.":"⚠️ This device's host key doesn't match the published one. Restore it in Owner tools."):"ℹ️ Not secured yet: finish the host key steps in Owner tools."}</div></div>`:`<div class="card"><b>Are you the admin?</b><div style="color:var(--mu);font-size:14px;margin:6px 0">The admin gets the Start button.</div><button class="ghost" style="width:100%" onclick="fmsHostMe()">🔑 I'm the admin</button></div>`)+`<button class="ghost" style="width:100%" onclick="fmsLeave()">Leave</button>`;
+if(p=="count")return`<div class="c" style="margin-top:40px"><div style="color:var(--mu)">Get ready…</div><div id="fmbig" style="font-size:96px;font-weight:800;color:var(--pr)">5</div><div style="color:var(--mu)">${FM.cs.k?"⚖️ Tie-breaker · "+FM.cs.n+" fresh questions":FM.cs.n+" questions"} · ${FM.cs.tq} seconds each</div></div>`;
+if(p=="play"){const s=FM.cs,q=s.qs[FM.i];if(!q)return"";return`<div class="fmq">${FM.i+1}/${s.n}${s.k?" · ⚖️ Tie-breaker":""} · ${FMS[q.s][0]} ${FMS[q.s][1]}<span class="fmt ${q.l}">${q.l=="h"?"Hard":"Medium"}</span></div><div class="card c">⏱ <b id="fmts">${s.tq}s</b></div><div class="bar"><i id="fmtb" style="width:100%;background:var(--gold)"></i></div><div class="q">${esc(q.q)}</div><div class="og">${q.o.map((o,j)=>`<button class="opt ${FM.lock?(o==q.c?"ok":j==FM.pick?"no":""):""}" ${FM.lock?"disabled":""} onclick="fmsAns(${j})">${esc(o)}</button>`).join("")}</div>`}
+return fmsStageHtml()}
+function fmsStageHtml(){const s0=FM.stages[0];let h=head("home");if(!s0)return h;
+if(!s0.fin)return h+`<h1>✅ ${FM.cs&&s0.res[DID]?"Finished!":"Challenge under way"}</h1><div class="card c">Waiting for everyone to finish… (${Object.keys(s0.res).length}/${s0.mem.length})</div><div class="card">${s0.mem.map(d=>(s0.res[d]?"✅ ":"⏳ ")+esc(fmsName(d))).join("<br>")}</div>`;
+const pl=fmsPlan(),me=pl.rows.find(r=>r.d==DID),fin=pl.fin,nT=FM.stages.length-1;
+h+=`<h1>${fin?(me&&me.rank==1&&!me.tie?"🥇 You are the champion!":"🏁 Challenge complete"):"📊 Results are in"}</h1>`;
+h+=`<div class="card c">${me&&!me.dnf?`You ${fin?"placed":"are currently"} <b>${me.tie?"joint ":""}${me.rank}</b> of ${pl.rows.filter(r=>!r.dnf).length} · ✅ ${me.ok0}/${s0.n}`:(FM.host&&!FM.play?"Final results are in.":"You did not finish the main round.")}</div>`;
+if(pl.need)h+=`<div class="card c" style="border-color:var(--gold)">⚖️ <b>Tie for position ${pl.need.pos+1}</b><br>${pl.need.g.map(d=>esc(fmsName(d))).join(", ")}<br><span style="color:var(--mu);font-size:13px">${FM.host?`Tie-breaker with 10 fresh questions starts in <b id="fmtc">8</b>s`:"A tie-breaker with 10 fresh questions starts shortly"}</span></div>`;
+else if(pl.wait){const a=FM.stages.find(s=>!s.fin&&s.k>0);h+=`<div class="card c" style="border-color:var(--gold)">⚖️ <b>Tie-breaker in progress</b><br>${a?a.mem.map(d=>esc(fmsName(d))).join(", "):""}<br><span style="color:var(--mu);font-size:13px">Results update when they finish.</span></div>`}
+h+=`<div class="card"><b>🏆 ${fin?"Final positions":"Positions so far"}</b>${pl.rows.map(r=>{const tb=FM.stages.slice(1).filter(s=>s.fin&&s.mem.includes(r.d)).map(s=>(s.res[r.d]?s.res[r.d].ok:0)+"/"+s.n).join(" · "),md=r.dnf?"–":r.tie||r.prov?"="+r.rank+".":r.rank==1?"🥇":r.rank==2?"🥈":r.rank==3?"🥉":r.rank+".";
+return`<div class="lb"><div style="${r.d==DID?"font-weight:700;color:var(--pr)":""}"><span>${md} ${esc(r.n)}${r.d==DID?" (you)":""}</span><span>${r.dnf?"Did not finish":"✅ "+r.ok0+"/"+s0.n+(tb?" · ⚖️ "+tb:"")}</span></div></div>`}).join("")}${nT&&!fin?"":""}</div>`;
+if(fin&&pl.rows.some(r=>r.tie))h+=`<div class="c" style="color:var(--mu);font-size:13px;margin-bottom:8px">Still level after ${FMX} tie-breakers, so these players share the position.</div>`;
+return h+fmsReview()+`<button class="ghost" style="width:100%" onclick="fmsLeave()">Back to Play</button>`}
 function head(back){return`<div class="top">${back?`<button class="ghost" onclick="go('${back=="home"?BQT:back}')">←</button>`:`<h1>🧠 BrainQuest</h1>`}<span><button class="ghost" style="padding:6px 10px;margin-right:6px" onclick="S.mute=!S.mute;save();render()">${S.mute?"🔇":"🔊"}</button>${["quiz","jq","exq"].includes(V)?"":`<button class="ghost" style="padding:6px 10px;margin-right:6px" aria-label="Settings" onclick="go('set')">⚙️</button>`}<span class="coin">🪙 ${S.coins}</span></span></div>`}
 function go(v,x){V=v;if(v!="vf"){clearInterval(VT);voClose()}if(["home","learn","play","comm","prof"].includes(v))BQT=v;if(v!="quiz")clearInterval(T);if(x)G=Object.assign(G,x);render()}
 function render(){render0();bqNav()}
@@ -405,6 +560,7 @@ function render0(){$.dataset.v=V;
  else if(V=="comm"){$.innerHTML=bqComm()}
  else if(V=="prof"){$.innerHTML=bqProf()}
  else if(V=="vf"){$.innerHTML=bqVf()}
+ else if(V=="fms"){$.innerHTML=fmsHtml()}
  else if(V=="jh"){const L=jlist(),w=L[0],done=S.jk==jkey();$.innerHTML=head("home")+`<h1>👑 Leaderboard Journey</h1><div class="c" style="color:var(--mu);font-size:13px">Question set: edition #${jed()}</div>
 <div class="card"><b>Rules</b><div style="color:var(--mu);font-size:14px;margin-top:6px">• All subjects are mixed together and get harder as you go.<br>• ${JN} questions. Every question counts: a miss or timeout scores 0 and <b>can't be retried</b>.<br>• ${MOD.jDaily===true?"You get one journey per day.":"You get one journey per question edition. The same questions stay until the host updates them."}<br>• 🚀 Get 7 correct in a row (after clearing at least one subject stage) to unlock a permanent <b>5× coin booster</b> for correct answers${S.up?" — <b>active!</b>":""}.<br>• The top scorer wears the crown as <b>KING</b> or <b>QUEEN</b> and wins a 🎁 gift.</div></div>
 <div class="card c">${w?`👑 Reigning <b>${ttl(w.g)}</b>: <b>${esc(w.n)}</b> · ${w.p} pts<br><small style="color:var(--mu)">Beat their score to take the throne and win a 🎁 gift!</small>`:`The throne is empty. Be the first ${S.g?ttl(S.g):"King or Queen"}!`}</div>`
