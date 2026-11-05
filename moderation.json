@@ -1,11 +1,4 @@
 {
- "jEd": 0,
- "cEd": 0,
- "jDaily": false,
- "turnUrl": "",
- "ice": [],
- "ownerSig": "DPsPiysfXC6zPoUiy9fldTszphbWpdC3VkFztjoK19w.ad7nC5LdVKZ1tKyFI6fg8keh3r9gYWOZACQS305-hv4",
- "compHash": "",
  "chatEnabled": true,
  "dmEnabled": true,
  "voiceEnabled": true,
@@ -16,5 +9,5 @@
  "bannedWords": [],
  "hiddenMessages": [],
  "announcement": "",
- "ownerPub": "oWjX8t5IFzN0H2w5Q4J1Di0CHemdIx8VAqC56w9tkSc.nBDKQQVwCBhpD9Oig0RqdI9OkBZonqNSDSjC_54vy70"
+ "ownerPub": ""
 }
